@@ -1,0 +1,12 @@
+[
+  {"id":"cabourg","name":"Cabourg","latitude":49.2919,"longitude":-0.1133,"role":"target"},
+  {"id":"dives-sur-mer","name":"Dives-sur-Mer","latitude":49.2818,"longitude":-0.1013,"role":"target"},
+  {"id":"houlgate","name":"Houlgate","latitude":49.3009,"longitude":-0.0818,"role":"target"},
+  {"id":"villers-sur-mer","name":"Villers-sur-Mer","latitude":49.3227,"longitude":0.0003,"role":"target"},
+  {"id":"deauville","name":"Deauville","latitude":49.36,"longitude":0.0744,"role":"target"},
+  {"id":"trouville-sur-mer","name":"Trouville-sur-Mer","latitude":49.3657,"longitude":0.08,"role":"target"},
+  {"id":"villerville","name":"Villerville","latitude":49.4019,"longitude":0.1283,"role":"target"},
+  {"id":"honfleur","name":"Honfleur","latitude":49.4193,"longitude":0.232,"role":"target"},
+  {"id":"ouistreham-reference","name":"Ouistreham","latitude":49.2798,"longitude":-0.2583,"role":"reference"},
+  {"id":"le-havre-reference","name":"Le Havre","latitude":49.4939,"longitude":0.1077,"role":"reference"}
+]
