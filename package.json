@@ -1,0 +1,17 @@
+{
+  "name": "dr-tide-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Moteur de prédiction et validation des marées, pilote Côte Fleurie.",
+  "scripts": {
+    "inventory": "node scripts/inventory-cote-fleurie.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@neaps/tide-database": "^0.8.20260701"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
