@@ -24,6 +24,7 @@ Thumbs.db
 # Sauvegardes et données locales
 *.bak
 backups/
+data/generated/
 .local-data/
 *.sqlite-shm
 *.sqlite-wal
