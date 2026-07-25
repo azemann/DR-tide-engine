@@ -5,11 +5,19 @@
   "type": "module",
   "description": "Moteur de prédiction et validation des marées, pilote Côte Fleurie.",
   "scripts": {
+    "build": "tsc -p tsconfig.json",
     "inventory": "node scripts/inventory-cote-fleurie.mjs",
-    "test": "node --test"
+    "predict": "npm run build --silent && node dist/src/cli/predict.js",
+    "test": "npm run build --silent && node dist/tests/tide-engine.test.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@neaps/tide-database": "^0.8.20260701"
+    "@neaps/tide-database": "0.8.20260701",
+    "@neaps/tide-predictor": "0.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.19.9",
+    "typescript": "5.9.2"
   },
   "engines": {
     "node": ">=20"
