@@ -1,13 +1,19 @@
 # Licence
 
-La licence n’est pas choisie par le template.
+DR Tide Engine a vocation à être publié comme moteur open source, mais la
+licence du code n'est pas encore choisie.
 
-Avant publication ou distribution, sélectionner une licence adaptée et remplacer ce fichier par son texte officiel. L’absence de licence ne signifie pas que le projet est librement réutilisable.
+En l'état, l'absence de licence explicite ne donne pas de droit de copie, de
+modification ou de redistribution. Aucune release ou distribution open source
+ne doit être déclarée avant une décision du mainteneur et le remplacement de ce
+fichier par le texte officiel de la licence retenue.
 
-Questions à trancher :
+La décision devra au minimum examiner :
 
-- projet privé, source disponible ou open source ;
-- usage commercial autorisé ou non ;
+- licence permissive ou copyleft ;
+- droit d'usage commercial cohérent avec la finalité et les données retenues ;
 - obligation de partager les modifications ;
-- licences compatibles avec les dépendances et ressources utilisées.
+- compatibilité avec MIT, ISC, Apache-2.0 et les données de stations CC BY 4.0 ;
+- attribution requise pour les constantes harmoniques.
 
+Cette question est suivie par Q-001 et AUD-005.

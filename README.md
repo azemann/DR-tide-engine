@@ -2,6 +2,10 @@
 
 > Moteur open source de prédiction et de validation des marées, indépendant de toute interface Alexa, web ou mobile.
 
+Le projet est en phase `development`. Sa licence open source n'est pas encore
+choisie : en attendant cette décision, le dépôt est consultable mais ne doit pas
+être considéré comme librement redistribuable. Voir [LICENSE.md](LICENSE.md).
+
 ## Objectif
 
 DR Tide Engine doit :
@@ -33,25 +37,48 @@ Stations candidates autorisant l'usage commercial :
 
 Les stations CC BY-NC sont exclues du chemin de publication.
 
-## Architecture cible
+## Architecture
 
 ```text
 src/
-├── domain/         types et règles métier
-├── stations/       chargement et sélection des stations
-├── harmonic/       calcul harmonique
-├── extrema/        détection pleines/basses mers
-├── corrections/    corrections locales
-├── validation/     comparaison aux références
-└── exports/        JSON, CSV, API
+├── domain/          types, invariants, ports et erreurs
+├── application/     orchestration des cas d'usage
+├── adapters/neaps/  données de stations et calcul harmonique
+└── cli/             arguments et sérialisation, sans logique de marée
 ```
 
-## Première brique disponible
+La cible à plus long terme comprend extrema, corrections, validation et exports,
+mais ces capacités ne sont pas encore implémentées.
 
-L'inventaire recherche les stations harmoniques autour des communes de la Côte Fleurie et conserve distance, licence, datum et nombre de constituants.
+## Installation et validation
 
 ```bash
-npm install
+npm ci
+npm run typecheck
+npm test
+```
+
+## Première brique exécutable
+
+Générer une série brute en UTC pour une journée civile :
+
+```bash
+npm run predict -- --station ticon/ouistreham-311-fra-refmar --date 2026-07-25
+```
+
+Pour rediriger uniquement le JSON, sans l'en-tête informatif de npm :
+
+```bash
+npm run --silent predict -- --station ticon/ouistreham-311-fra-refmar --date 2026-07-25
+```
+
+La fenêtre est semi-ouverte et contient 288 échantillons, de `00:00` à `23:55`
+UTC, avec un pas de cinq minutes. Les hauteurs sont les valeurs brutes du calcul
+harmonique, sans correction locale ni revendication de datum validé.
+
+L'inventaire géographique initial reste disponible :
+
+```bash
 npm run inventory
 ```
 
@@ -63,7 +90,7 @@ data/generated/inventory-results.json
 
 ## Règle de publication
 
-Aucun port ne passe au statut `validated` avant :
+Aucune station ou hauteur ne passe au statut `validated` avant :
 
 1. vérification de la licence ;
 2. identification du datum lorsque des hauteurs sont publiées ;
@@ -71,4 +98,12 @@ Aucun port ne passe au statut `validated` avant :
 4. mesure des erreurs moyenne et maximale ;
 5. attribution claire des sources.
 
-La V1 privilégie les horaires et la tendance. Les hauteurs et coefficients viendront après validation de leur référence.
+Les hauteurs officielles, événements, tendances, corrections et coefficients
+viendront après leurs jalons de validation respectifs.
+
+## Licence et attribution
+
+Le choix de licence du code est ouvert et bloque toute release. Les résultats
+conservent la source et la licence de chaque station ; les constantes des deux
+stations V1 sont distribuées sous CC BY 4.0 dans la version verrouillée de la
+base Neaps.

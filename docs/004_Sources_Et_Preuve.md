@@ -6,7 +6,10 @@ Ce registre distingue ce qui est observé, supposé, interprété et décidé. U
 
 | ID | Affirmation | Type | Source | Méthode/protocole | Limites/incertitude | Statut |
 | --- | --- | --- | --- | --- | --- | --- |
-| SRC-001 | {{CLAIM}} | {{EVIDENCE_TYPE}} | {{EVIDENCE_SOURCE}} | {{EVIDENCE_METHOD}} | {{EVIDENCE_LIMITS}} | à vérifier |
+| SRC-001 | `@neaps/tide-database` distribue des stations et constantes, pas un calculateur d'exécution. | documentation et manifeste amont | dépôt `openwatersio/tide-database` | lecture du README et des dépendances | peut évoluer après la version verrouillée | confirmé le 2026-07-25 |
+| SRC-002 | `@neaps/tide-predictor` calcule une timeline à pas régulier en UTC. | documentation et résultat expérimental | paquet 0.10.0 et dépôt `openwatersio/neaps` | lecture de l'API et test d'intégration sur 24 heures | exactitude locale non encore comparée au SHOM | confirmé le 2026-07-25 |
+| SRC-003 | Ouistreham et Le Havre sont des stations de référence TICON-4, CC BY 4.0, commerciales, avec 50 constituants. | métadonnées de station | `@neaps/tide-database` 0.8.20260701 | chargement et assertions d'intégration | une mise à jour peut changer les métadonnées | confirmé le 2026-07-25 |
+| SRC-004 | Le moteur n'est pas destiné à la navigation. | avertissement amont et décision projet | documentation Neaps et EC-003 | revue documentaire | n'évalue pas tous les usages détournés | confirmé |
 
 ## Types canoniques
 
@@ -26,4 +29,3 @@ Ce registre distingue ce qui est observé, supposé, interprété et décidé. U
 - enregistrer les résultats négatifs ou contradictoires ;
 - séparer la qualité de la source de l’accord avec notre hypothèse ;
 - relier les preuves aux exigences, décisions et risques concernés.
-

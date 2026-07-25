@@ -2,19 +2,21 @@
 
 ## Risques prioritaires
 
-- {{QUALITY_RISK_1}}
-- {{QUALITY_RISK_2}}
+- accepter une station incompatible avec l'usage commercial ;
+- produire une série incomplète, non ordonnée ou contenant une valeur non finie ;
+- masquer une évolution de la base ou du calculateur par une plage de versions ;
+- présenter une hauteur brute comme une donnée officielle.
 
 ## Stratégie
 
 | Niveau | Ce qui est validé | Outil ou protocole | Fréquence |
 | --- | --- | --- | --- |
-| Statique | types, style, erreurs évidentes | {{STATIC_CHECK}} | chaque changement |
-| Unitaire | règles isolées | {{UNIT_TEST}} | chaque changement |
-| Intégration | frontières et données | {{INTEGRATION_TEST}} | {{INTEGRATION_FREQUENCY}} |
-| Parcours | cas d’usage critiques | {{E2E_TEST}} | {{E2E_FREQUENCY}} |
-| Manuel | UX et cas difficiles à automatiser | {{MANUAL_PROTOCOL}} | {{MANUAL_FREQUENCY}} |
-| Visuel | responsive, thèmes, composants et états | captures ou recette | chaque changement visuel important |
+| Statique | types et contrats | `npm run typecheck` | chaque changement |
+| Unitaire | identifiants, requêtes, sérialisation et erreurs | `node:test` | chaque changement |
+| Intégration | stations et calculateur Neaps verrouillés | `npm test` | chaque changement de données ou dépendance |
+| Parcours | commande Ouistreham sur une date fixe | `npm run predict` et validation JSON | chaque jalon |
+| Manuel | sens de la hauteur et attribution | revue documentaire | avant release |
+| Visuel | non applicable | aucune interface | tant qu'aucune UI n'existe |
 
 ## Définition de terminé
 
@@ -26,3 +28,7 @@
 - [ ] clavier, focus, contraste et mouvement réduit vérifiés ;
 - [ ] aucune donnée sensible ou secret ajouté ;
 - [ ] migration et retour arrière définis si nécessaires.
+
+Pour la première tranche, aucune migration, donnée persistante ou modification
+visuelle n'existe. Le retour arrière consiste à restaurer les versions exactes
+du lockfile et l'adaptateur précédent.

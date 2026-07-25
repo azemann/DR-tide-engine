@@ -4,7 +4,10 @@ Un risque est un événement possible. Un écart déjà confirmé appartient à 
 
 | ID | Risque | Probabilité | Impact | Détection | Prévention | Réponse/contingence | Responsable | Statut |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| R-001 | {{RISK}} | {{RISK_PROBABILITY}} | {{RISK_IMPACT}} | {{RISK_DETECTION}} | {{RISK_PREVENTION}} | {{RISK_RESPONSE}} | {{RISK_OWNER}} | ouvert |
+| R-001 | Une mise à jour de la base modifie les stations ou leurs licences. | moyenne | haut | tests d'intégration et revue du lockfile | versions exactes et métadonnées conservées | bloquer la mise à jour ou exclure la station | mainteneur | ouvert |
+| R-002 | Une hauteur brute est interprétée comme hauteur officielle. | moyenne | critique | revue des contrats et sorties | nommage, documentation et absence de revendication de datum validé | désactiver la publication de hauteur concernée | mainteneur | ouvert |
+| R-003 | La bibliothèque de calcul change son algorithme ou son contrat. | moyenne | haut | typecheck et tests déterministes après mise à jour | adaptateur dédié et version exacte | conserver l'ancienne version ou adapter derrière le port | mainteneur | ouvert |
+| R-004 | Une station BY-NC entre dans le chemin publiable. | faible | haut | test de refus et contrôle systématique de `commercial_use` | refus par défaut avant calcul | retirer la sortie et corriger la sélection | mainteneur | ouvert |
 
 ## Évaluation
 
@@ -23,4 +26,3 @@ Un risque est un événement possible. Un écart déjà confirmé appartient à 
 - accessibilité et UX ;
 - juridique, licence et commercialisation ;
 - compétences, temps et financement.
-

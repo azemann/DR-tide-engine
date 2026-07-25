@@ -2,28 +2,38 @@
 
 ## Maintenant
 
-Objectif : {{NOW_OBJECTIVE}}
+Objectif : produire une série harmonique brute, traçable et déterministe.
 
-- [ ] {{NOW_ITEM_1}}
-- [ ] {{NOW_ITEM_2}}
+- [x] charger Ouistreham et Le Havre derrière `StationRepository` ;
+- [x] refuser les licences sans usage commercial ;
+- [x] calculer 288 échantillons UTC sur 24 heures ;
+- [x] exposer la preuve par une CLI JSON et des tests.
 
 ## Ensuite
 
-Objectif : {{NEXT_OBJECTIVE}}
+Objectif : détecter automatiquement les extrema à partir de la série validée.
 
-- [ ] {{NEXT_ITEM_1}}
-- [ ] {{NEXT_ITEM_2}}
+- [ ] définir les contrats `TideEvent` sans modifier `TideSeries` ;
+- [ ] détecter pleines et basses mers, puis caractériser les étales ;
+- [ ] mesurer la robustesse au pas d'échantillonnage.
 
 ## Plus tard
 
-- {{LATER_ITEM}}
+- valider les événements contre des références ;
+- documenter et appliquer les corrections locales Côte Fleurie ;
+- produire des exports annuels ;
+- concevoir une API, puis intégrer les clients dont `skill-mar-e`.
 
 ## Non planifié
 
-- {{UNPLANNED_IDEA}}
+- couverture nationale ou mondiale ;
+- navigation maritime officielle ;
+- coefficients français.
 
 ## Jalons
 
 | Jalon | Résultat vérifiable | Conditions d’entrée | Conditions de sortie |
 | --- | --- | --- | --- |
-| {{MILESTONE}} | {{DELIVERABLE}} | {{MILESTONE_ENTRY}} | {{MILESTONE_EXIT}} |
+| M1 — série brute | JSON de 288 échantillons pour les deux stations | bootstrap validé et dépendances verrouillées | tests, typecheck et check-project réussis |
+| M2 — extrema | événements ordonnés dérivés de la série | M1 validé | cas limites et erreurs temporelles testés |
+| M3 — validation | rapport de comparaison | extrema stables et références choisies | seuils et limites documentés |

@@ -38,6 +38,12 @@ Collecter le minimum, donner le contrôle et permettre un export dans un format 
 
 ## Principes propres au projet
 
-- {{PROJECT_PRINCIPLE_1}}
-- {{PROJECT_PRINCIPLE_2}}
-
+- Le moteur ne connaît aucune interface cliente ; les clients consomment ses
+  contrats sans porter de logique de marée.
+- Une donnée fournie par une dépendance externe est normalisée à la frontière et
+  ne circule jamais directement dans le domaine.
+- Les calculs internes et les contrats temporels utilisent UTC.
+- Une licence de station interdisant l'usage commercial provoque un refus, sans
+  dérogation implicite.
+- Une hauteur brute n'est jamais présentée comme une hauteur officielle ou
+  navigable sans validation de sa référence verticale.

@@ -1,37 +1,54 @@
 schema_version: 3
 
 project:
-  name: "{{PROJECT_NAME}}"
-  kind: "{{PROJECT_KIND}}"
-  version: "{{CURRENT_VERSION}}"
+  name: "DR Tide Engine"
+  kind: "TypeScript library with diagnostic CLI"
+  version: "0.1.0"
 
 components:
   main:
     root: "."
     languages:
-      primary: "{{PRIMARY_LANGUAGE}}"
-      secondary: []
+      primary: "TypeScript"
+      secondary:
+        - "JavaScript"
     toolchain:
-      compiler_or_interpreter: "{{COMPILER_OR_INTERPRETER}}"
-      runtimes: []
-      dependency_managers: []
-      build_tools: []
+      compiler_or_interpreter: "TypeScript compiler (tsc)"
+      runtimes:
+        - "Node.js >=20"
+      dependency_managers:
+        - "npm"
+      build_tools:
+        - "npm scripts"
+        - "TypeScript compiler (tsc)"
       frameworks: []
     targets:
-      - "{{TARGET_PLATFORM}}"
+      - "Node.js >=20 on Linux, macOS, and Windows"
     commands:
       install:
-        status: unresolved
-        argv: []
-        reason: "La commande doit être confirmée depuis le projet réel."
+        status: defined
+        argv: [npm, ci]
       test:
-        status: unresolved
-        argv: []
-        reason: "La stratégie de test n'est pas encore confirmée."
+        status: defined
+        argv: [npm, test]
+      typecheck:
+        status: defined
+        argv: [npm, run, typecheck]
       build:
-        status: unresolved
-        argv: []
-        reason: "La commande de build n'est pas encore confirmée."
+        status: defined
+        argv: [npm, run, build]
+      predict-example:
+        status: defined
+        argv:
+          - npm
+          - run
+          - --silent
+          - predict
+          - --
+          - --station
+          - ticon/ouistreham-311-fra-refmar
+          - --date
+          - "2026-07-25"
     artifacts: []
 
 # Les portées sont indépendantes. Une cible future peut être ajoutée sous
@@ -59,4 +76,4 @@ secrets: {}
 
 evidence:
   declared_by: "human"
-  last_verified: "{{YYYY-MM-DD}}"
+  last_verified: "2026-07-25"

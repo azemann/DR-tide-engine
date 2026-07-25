@@ -3,11 +3,12 @@ template_version: "1.6.0"
 
 adoption:
   origin: new
-  current_level: bootstrap
-  initialized_at: null
+  current_level: development
+  initialized_at: "2026-07-25"
 
 profiles:
-  active: []
+  active:
+    - software
 
 # Ajouter uniquement les préoccupations réellement rencontrées.
 # Statuts possibles : active, deferred, not-applicable.
@@ -22,20 +23,53 @@ documents:
     path: AGENTS.md
     status: active
   current-state:
-    path: docs/007_Brief_Bootstrap.md
+    path: PROJECT_STATE.md
     status: active
   vision:
-    path: docs/007_Brief_Bootstrap.md
+    path: docs/000_Vision.md
     status: active
   principles:
-    path: docs/007_Brief_Bootstrap.md
+    path: docs/002_Principes.md
     status: active
   scope:
-    path: docs/007_Brief_Bootstrap.md
+    path: docs/003_Perimetre.md
     status: active
   requirements:
-    path: docs/007_Brief_Bootstrap.md
+    path: docs/005_Exigences.md
     status: active
   use-cases:
-    path: docs/007_Brief_Bootstrap.md
+    path: docs/010_Cas_Usage.md
+    status: active
+  sources:
+    path: docs/DATA_SOURCES.md
+    status: active
+  risks:
+    path: docs/008_Registre_Risques.md
+    status: active
+  open-questions:
+    path: docs/099_Questions_Ouvertes.md
+    status: active
+  glossary:
+    path: docs/001_Glossaire.md
+    status: active
+  domain-model:
+    path: docs/020_Modele_Metier.md
+    status: active
+  architecture:
+    path: docs/ARCHITECTURE.md
+    status: active
+  quality-tests:
+    path: docs/060_Qualite_Et_Tests.md
+    status: active
+  contracts-errors:
+    path: docs/075_Contrats_Et_Erreurs.md
+    status: active
+  audit:
+    path: docs/095_Registre_Audit.md
+    status: active
+  technology-decisions:
+    path: docs/040_Choix_Techniques.md
+    status: active
+  technology-registry:
+    path: project.yaml
     status: active

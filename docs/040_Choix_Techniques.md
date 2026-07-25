@@ -4,11 +4,11 @@ Les technologies sont choisies après la vision, le périmètre et le modèle m�
 
 ## Contraintes de choix
 
-- plateformes cibles : {{TARGET_PLATFORMS}} ;
-- fonctionnement hors ligne : {{OFFLINE_REQUIREMENT}} ;
-- volumétrie : {{EXPECTED_SCALE}} ;
-- compétences disponibles : {{AVAILABLE_SKILLS}} ;
-- durée de vie visée : {{EXPECTED_LIFETIME}}.
+- plateformes cibles : tout système disposant de Node.js 20 ou ultérieur ;
+- fonctionnement hors ligne : calcul local après installation des dépendances ;
+- volumétrie : 288 échantillons par station et journée dans la première tranche ;
+- compétences disponibles : TypeScript, Node.js et tests natifs ;
+- durée de vie visée : moteur maintenable et consommable par plusieurs clients.
 
 ## Chaîne technologique retenue
 
@@ -22,41 +22,40 @@ Le détail calculable appartient à `project.yaml`. Le présent document expliqu
 
 | Domaine | Choix | Raisons | Alternatives | Risques |
 | --- | --- | --- | --- | --- |
-| Langage(s) | {{LANGUAGE}} | {{LANGUAGE_REASON}} | {{LANGUAGE_ALTERNATIVES}} | {{LANGUAGE_RISKS}} |
-| Compilateur/interpréteur | {{COMPILER_OR_INTERPRETER}} | {{COMPILER_REASON}} | {{COMPILER_ALTERNATIVES}} | {{COMPILER_RISKS}} |
-| Runtime | {{RUNTIME}} | {{RUNTIME_REASON}} | {{RUNTIME_ALTERNATIVES}} | {{RUNTIME_RISKS}} |
-| Gestion des dépendances | {{DEPENDENCY_TOOL}} | {{DEPENDENCY_REASON}} | {{DEPENDENCY_ALTERNATIVES}} | {{DEPENDENCY_RISKS}} |
-| Build et tâches | {{BUILD_TOOL}} | {{BUILD_REASON}} | {{BUILD_ALTERNATIVES}} | {{BUILD_RISKS}} |
-| Frameworks/bibliothèques structurantes | {{FRAMEWORKS}} | {{FRAMEWORK_REASON}} | {{FRAMEWORK_ALTERNATIVES}} | {{FRAMEWORK_RISKS}} |
-| Interface | {{UI_STACK}} | {{UI_REASON}} | {{UI_ALTERNATIVES}} | {{UI_RISKS}} |
-| Données | {{DATA_STACK}} | {{DATA_REASON}} | {{DATA_ALTERNATIVES}} | {{DATA_RISKS}} |
-| Tests | {{TEST_STACK}} | {{TEST_REASON}} | {{TEST_ALTERNATIVES}} | {{TEST_RISKS}} |
-| Interface/design system | {{DESIGN_STACK}} | {{DESIGN_REASON}} | {{DESIGN_ALTERNATIVES}} | {{DESIGN_RISKS}} |
+| Langage(s) | TypeScript, JavaScript pour l'inventaire historique | contrats forts et écosystème de la source | JavaScript seul, Rust | types externes imparfaits |
+| Compilateur/interpréteur | compilateur TypeScript `tsc` | contrôle strict et sortie JavaScript standard | exécution directe TS | étape de build locale |
+| Runtime | Node.js 20 ou ultérieur | runtime déjà déclaré et clients multiplateformes | Deno, Bun | différences entre versions |
+| Gestion des dépendances | npm avec `package-lock.json` | outil livré avec Node et installation reproductible | pnpm | taille des données installées |
+| Build et tâches | npm scripts et `tsc` | chaîne minimale sans framework | bundler | build complet avant CLI |
+| Frameworks/bibliothèques structurantes | aucun framework ; deux adaptateurs Neaps | réutiliser données et calcul réel sans importer leur modèle dans le domaine | paquet agrégateur `neaps`, calcul interne immédiat | dérive amont |
+| Interface | CLI minimale de diagnostic | prouver la tranche sans devenir un client métier | API | parsing manuel borné |
+| Données | `@neaps/tide-database` version exacte | stations TICON et métadonnées de licence | copie locale des données | évolution des licences |
+| Tests | `node:test` et `node:assert/strict` | aucune dépendance de test additionnelle | Vitest | moins d'outillage de mocks |
+| Interface/design system | non applicable | aucune UI dans le moteur | aucune | aucun |
 
 ## Dépendances
 
-Chaque dépendance importante doit préciser son utilité, sa licence, son coût de remplacement et sa politique de mise à jour.
-
-Une bibliothèque de composants ne remplace ni la charte, ni les tokens sémantiques, ni la validation visuelle.
+- `@neaps/tide-database` distribue les stations ; le coût de remplacement est
+  contenu dans `StationRepository`.
+- `@neaps/tide-predictor` effectue le calcul réel ; le coût de remplacement est
+  contenu dans `TidePredictor`.
+- TypeScript et les types Node sont des dépendances de développement.
+- Toute mise à jour est explicite, relit les licences, régénère le lockfile et
+  exécute l'ensemble des preuves.
 
 ## Portabilité et sortie
 
-Préciser comment exporter les données, remplacer une dépendance critique, reconstruire le projet et quitter un fournisseur sans perdre la source de vérité.
+Les contrats du domaine et le JSON ne reprennent pas les types externes. Un
+nouvel adaptateur peut remplacer chaque paquet indépendamment. La base amont
+n'est pas recopiée dans le dépôt.
 
 ## Versions supportées
 
-{{SUPPORTED_VERSIONS}}
+Node.js 20 ou ultérieur. Les versions exactes des paquets et outils sont
+verrouillées dans `package-lock.json`.
 
 ## Commandes et artefacts réels
 
-Documenter les commandes propres au dépôt (`install`, `develop`, `test`, `lint`, `format`, `build`, `package`) et les artefacts obtenus. Une opération non applicable utilise `status: not-applicable` avec sa raison. Ne pas inventer une commande universelle qui masquerait les subtilités de la stack.
-
-Dans `project.yaml`, employer les statuts canoniques `defined`, `unresolved`, `not-applicable` et `disabled`. Seul `defined` autorise l’exécution.
-
-Séparer :
-
-- build de contrôle pour le développement ;
-- build et package reproductibles pour la release ;
-- publication ou déploiement de l’artefact déjà qualifié.
-
-Une cible finale peut être connue alors que ses comptes, clés, stores et environnements restent différés.
+Les commandes calculables vivent dans `project.yaml`. Le build de développement
+émet uniquement `dist/`, ignoré par Git. Aucun package, release, publication ou
+déploiement n'est actif.

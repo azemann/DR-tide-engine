@@ -4,39 +4,58 @@
 
 ## Jalon examiné
 
-{{RETROSPECTIVE_MILESTONE}}
+M1 — série harmonique brute sur 24 heures, 2026-07-25.
 
 ## Ce qui a fonctionné
 
-- {{WHAT_WORKED}}
+- valider le bootstrap avant d'activer development a empêché de confondre
+  cadrage et capacité ;
+- les ports séparés ont rendu les tests de licence et de calcul lisibles ;
+- le calculateur réel a pu être utilisé sans laisser ses types entrer dans le
+  domaine.
 
 ## Ce qui nous a ralentis
 
-- {{WHAT_SLOWED_US}}
+- les dépendances du validateur et npm n'étaient pas installées ;
+- la documentation amont et le contenu de la version verrouillée différaient sur
+  les datums ;
+- le calculateur inclut la borne finale, contrairement au contrat choisi.
 
 ## Hypothèses invalidées
 
-- {{INVALIDATED_ASSUMPTION}}
+- `@neaps/tide-database` ne fournit pas le calculateur en dépendance d'exécution ;
+- la version 0.8.20260701 contient déjà des datums pour les deux stations, malgré
+  la limite historiquement documentée dans le dépôt.
 
 ## Complexité inutile introduite
 
-- {{UNNECESSARY_COMPLEXITY}}
+Aucune couche anticipant les extrema, l'API ou Alexa n'a été ajoutée. Le cas
+d'usage `GenerateTideSeries` est la seule couche supplémentaire par rapport au
+diagnostic ; il évite de placer l'orchestration et les erreurs métier dans la
+CLI.
 
 ## Décisions à conserver
 
-- {{DECISION_TO_KEEP}}
+- versions exactes et lockfile ;
+- fenêtre UTC semi-ouverte ;
+- contrôle commercial avant calcul ;
+- hauteur explicitement brute.
 
 ## Décisions à revoir
 
-- {{DECISION_TO_REVIEW}}
+- le sens vertical et l'éventuel offset de datum avant toute publication de
+  hauteur ;
+- la granularité optimale pour détecter les extrema au prochain jalon.
 
 ## Ce que le template doit apprendre
 
-- {{TEMPLATE_LEARNING}}
+Pour un projet neuf comportant déjà quelques commits métier, `origin: new`
+reste correct : il faut adopter le bootstrap depuis l'intention, puis confronter
+les manifestes aux preuves réelles avant `development`.
 
 ## Actions
 
 | ID | Action | Responsable | Échéance | Preuve de clôture |
 | --- | --- | --- | --- | --- |
-| RET-001 | {{RETRO_ACTION}} | {{RETRO_OWNER}} | {{RETRO_DUE_DATE}} | {{RETRO_EVIDENCE}} |
-
+| RET-001 | Conserver AUD-004 ouvert jusqu'à validation verticale. | mainteneur | jalon validation | protocole et comparaison documentés |
+| RET-002 | Évaluer la détection d'extrema sans coupler `TideSeries` au calculateur. | mainteneur | M2 | tests d'événements sur séries validées |

@@ -1,73 +1,98 @@
 # Architecture de DR Tide Engine
 
-## Principe
+## État de cette architecture
 
-Le moteur ne connaît ni Alexa, ni interface web, ni appareil particulier. Il reçoit une station, une période et des options, puis retourne des données métier normalisées.
+Ce document distingue la première tranche réellement implémentée de
+l'architecture cible. Une présence dans la cible ne constitue pas une capacité.
+
+## Principe invariant
+
+Le moteur ne connaît ni Alexa, ni HTTP, ni interface graphique, ni appareil
+particulier. Les formats tiers sont traduits à leur frontière et aucune logique
+de marée ne vit dans la CLI.
 
 ```text
-Client
-  ↓
-TideService
-  ├── StationRepository
-  ├── HarmonicPredictor
-  ├── ExtremumDetector
-  ├── LocalCorrectionService
-  └── ValidationService
+source de données
+        ↓
+adaptateur de station
+        ↓
+station harmonique du domaine
+        ↓
+adaptateur du calculateur
+        ↓
+série temporelle brute
 ```
 
-## Modules
+## Première tranche
 
-### `stations`
+| Composant | Responsabilité | Dépendances autorisées |
+| --- | --- | --- |
+| `domain` | types, invariants, ports et erreurs stables | aucune dépendance externe |
+| `application` | orchestrer le chargement d'une station et sa prédiction | `domain` |
+| `adapters/neaps/station-repository` | traduire et filtrer les stations Neaps | `domain`, `@neaps/tide-database` |
+| `adapters/neaps/tide-predictor` | traduire la requête et le résultat du calculateur | `domain`, `@neaps/tide-predictor` |
+| `cli/predict` | valider les arguments, assembler le cas d'usage et sérialiser | `application`, `domain` et adaptateurs |
 
-Charge les métadonnées, constantes, licences et références verticales. Refuse les stations incompatibles avec le mode de diffusion demandé.
-
-### `harmonic`
-
-Calcule une série temporelle à partir des constituants harmoniques. Le moteur de référence externe et notre moteur pédagogique devront pouvoir être comparés.
-
-### `extrema`
-
-Détecte les changements de pente afin d'identifier pleines et basses mers. Une interpolation locale affine ensuite l'heure de l'extrême.
-
-### `corrections`
-
-Associe une commune à une station validée et applique des corrections temporelles ou de hauteur documentées.
-
-### `validation`
-
-Compare les événements calculés à une référence sur une période définie et produit : erreur moyenne, médiane, maximum, taux de correspondance et statut.
-
-### `exports`
-
-Expose des formats stables pour les clients : JSON annuel, API locale, CSV de contrôle et futur paquet npm.
-
-## Contrat métier envisagé
+Le port de données est :
 
 ```ts
-export interface TideRequest {
-  placeId: string;
-  from: string;
-  to: string;
-  timezone: string;
-}
-
-export interface TideEvent {
-  type: "high" | "low";
-  datetimeUtc: string;
-  localTime: string;
-  heightMeters?: number;
-  stationId: string;
-  validationStatus: "candidate" | "testing" | "validated" | "rejected";
+interface StationRepository {
+  findById(id: StationId): Promise<HarmonicStation | null>;
 }
 ```
+
+Le port de calcul est :
+
+```ts
+interface TidePredictor {
+  predict(request: PredictionRequest): Promise<TideSeries>;
+}
+```
+
+`PredictionRequest` reçoit une `HarmonicStation` déjà normalisée, et non un
+identifiant. La résolution et la politique de licence restent ainsi hors du
+calculateur, qui ne dépend d'aucun dépôt.
+
+Le cas d'usage `GenerateTideSeries` porte l'orchestration réutilisable. Cet
+ajout évite de placer dans la CLI le traitement d'une station inconnue et
+permettra aux futurs clients d'appeler le même parcours.
+
+## Contrat temporel
+
+Une journée civile demandée par la CLI devient la fenêtre UTC semi-ouverte
+`[00:00:00.000Z, 00:00:00.000Z le lendemain[`. Avec un pas de cinq minutes,
+elle contient exactement 288 instants. `endUtc` est la borne exclusive.
+
+## Sources de vérité
+
+| Information | Source canonique |
+| --- | --- |
+| identité, constantes, source et licence de station | `StationRepository` adapté depuis la version npm verrouillée |
+| invariants des requêtes et séries | types et constructeurs du domaine |
+| calcul harmonique | adaptateur `TidePredictor` et version verrouillée du calculateur |
+| sérialisation CLI | sérialiseur explicite de la commande `predict` |
+| commandes vérifiées | `project.yaml` |
+| état réellement atteint | `PROJECT_STATE.md` |
+
+## Architecture cible non implémentée
+
+- détection de pleine mer, basse mer et étale ;
+- validation par rapport à des références externes ;
+- corrections locales Côte Fleurie ;
+- exports annuels, API et clients.
 
 ## Ordre de réalisation
 
-1. inventaire et filtrage des stations ;
-2. prédiction d'une station de référence ;
-3. génération d'une courbe sur 24 heures ;
-4. détection automatique des extrêmes ;
-5. validation de Ouistreham et du Havre ;
-6. corrections locales Côte Fleurie ;
-7. export JSON ;
-8. intégration dans `skill-mar-e`.
+1. charger et filtrer Ouistreham et Le Havre ;
+2. produire et tester une série brute sur 24 heures ;
+3. valider la série et ses contrats ;
+4. détecter automatiquement les extrema ;
+5. comparer aux références ;
+6. concevoir ensuite les corrections et clients.
+
+## Risques architecturaux
+
+- dérive de format ou de licence dans la base externe ;
+- confusion entre hauteur harmonique brute et hauteur officielle ;
+- couplage involontaire du domaine à une version de Neaps ;
+- ajout prématuré de concepts d'événements ou de communes dans le calcul brut.
