@@ -2,7 +2,7 @@ schema_version: 3
 
 project:
   name: "DR Tide Engine"
-  kind: "TypeScript library with diagnostic CLI"
+  kind: "TypeScript library with diagnostic CLI and local observatory"
   version: "0.1.0"
 
 components:
@@ -12,6 +12,8 @@ components:
       primary: "TypeScript"
       secondary:
         - "JavaScript"
+        - "HTML"
+        - "CSS"
     toolchain:
       compiler_or_interpreter: "TypeScript compiler (tsc)"
       runtimes:
@@ -24,6 +26,7 @@ components:
       frameworks: []
     targets:
       - "Node.js >=20 on Linux, macOS, and Windows"
+      - "Modern browser through the local loopback observatory"
     commands:
       install:
         status: defined
@@ -47,6 +50,15 @@ components:
           - --
           - --station
           - ticon/ouistreham-311-fra-refmar
+          - --date
+          - "2026-07-25"
+      observatory-data:
+        status: defined
+        argv:
+          - npm
+          - run
+          - observatory:data
+          - --
           - --date
           - "2026-07-25"
     artifacts: []

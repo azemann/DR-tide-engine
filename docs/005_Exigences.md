@@ -10,6 +10,8 @@ Une exigence décrit un résultat vérifiable, pas une solution technique préma
 | EF-002 | Refuser toute station inconnue ou dont la licence interdit l'usage commercial. | Politique V1 | indispensable | Les deux refus possèdent des erreurs distinctes et des tests. | acceptée |
 | EF-003 | Produire une série brute pour une journée civile UTC avec un pas de cinq minutes. | Mission initiale | indispensable | La fenêtre semi-ouverte contient exactement 288 échantillons strictement ordonnés. | acceptée |
 | EF-004 | Produire un JSON déterministe conservant station, source et licence. | Mission initiale | indispensable | Deux exécutions avec la même entrée produisent exactement la même chaîne JSON. | acceptée |
+| EF-005 | Mesurer la qualité structurelle d'une série sans la modifier ni prétendre valider sa justesse scientifique. | Besoin d'observabilité | indispensable | Des tests synthétiques couvrent série saine, trous, doublons, date invalide, valeur non finie et immutabilité. | acceptée |
+| EF-006 | Visualiser localement la courbe, ses diagnostics, sa provenance et l'état du projet sans logique métier dans le navigateur. | Besoin d'observabilité | utile au développement | Un instantané réel des deux stations est généré et servi par des routes loopback explicites. | acceptée |
 
 ## Qualités attendues
 
@@ -18,11 +20,12 @@ Une exigence décrit un résultat vérifiable, pas une solution technique préma
 | EQ-001 | Typage | contrôle TypeScript strict | aucune erreur | chaque changement | acceptée |
 | EQ-002 | Modularité | graphe de dépendances | domaine sans import Neaps ou CLI | première tranche | acceptée |
 | EQ-003 | Déterminisme | comparaison byte à byte du JSON | résultat identique | même station, date et versions verrouillées | acceptée |
-| EQ-004 | Portabilité | runtime documenté | Node.js 20 ou ultérieur | Linux, macOS ou Windows disposant de Node | acceptée |
+| EQ-004 | Portabilité | runtime documenté | Node.js 20 ou ultérieur | Linux, macOS ou Windows disposant de Node | acceptée pour M1 ; revalidation de la borne Node 20 explicitement différée |
+| EQ-005 | Accessibilité de l'observatoire | contrat statique et recette visuelle | clavier, focus, zoom, mouvement réduit, états explicites | observatoire local | partiellement vérifiée |
 
-La première tranche n'a pas d'interface ni de données personnelles. Les
-exigences d'accessibilité visuelle, d'authentification, de réseau et
-d'exploitation sont donc différées avec les clients qui les introduiront.
+L'observatoire est une interface locale de développement sans authentification,
+donnée personnelle ou exposition réseau. L'accessibilité et la validation
+visuelle sont actives ; l'exploitation publique reste différée.
 
 ## Contraintes
 
@@ -35,5 +38,6 @@ d'exploitation sont donc différées avec les clients qui les introduiront.
 
 ## Traçabilité
 
-EF-001 à EF-004 sont reliées à UC-001. Leur preuve est constituée par les tests
-de la première tranche et par l'ADR sur la frontière Neaps.
+EF-001 à EF-004 sont reliées à UC-001. EF-005 est prouvée par les tests de
+diagnostic. EF-006 est bornée par l'ADR-0007 et la recette de validation
+visuelle.

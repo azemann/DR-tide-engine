@@ -20,6 +20,9 @@
 - `PredictionRequest` : station normalisée, début, fin et pas ;
 - `TideSample` : instant UTC et hauteur brute finie ;
 - `TideSeries` : métadonnées de fenêtre et échantillons ordonnés.
+- `TideSeriesDiagnostics` : mesure immuable de la structure d'une série
+  existante : effectif attendu, trous, doublons, ordre, régularité, valeurs non
+  finies, minimum, maximum et amplitude bruts.
 
 ## Relations
 
@@ -42,6 +45,7 @@ zéro ou plusieurs échantillons ; la tranche de 24 heures en contient 288.
 | --- | --- | --- | --- | --- |
 | trouver une station | `StationId` | identifiant valide | `HarmonicStation` ou absence | station inconnue, type ou données invalides, licence refusée |
 | prédire une série | `PredictionRequest` | station et fenêtre valides | `TideSeries` | requête invalide, résultat externe non fini ou incohérent |
+| diagnostiquer une série | `TideSeries` | fenêtre divisible et pas positif | `TideSeriesDiagnostics` | métadonnées de fenêtre invalides |
 
 ## Événements significatifs
 
@@ -52,3 +56,4 @@ seront introduits dans un jalon distinct après validation de la série.
 
 Les objets de la première tranche sont immuables. Il n'existe pas de cycle
 d'état persistant : une requête est soit refusée, soit transformée en série.
+Le diagnostic lit la série sans la corriger ni la remplacer.

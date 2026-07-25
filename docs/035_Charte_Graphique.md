@@ -19,11 +19,13 @@ Cette signature est un défaut de gamme, pas une obligation de marque. Les fonda
 
 ## Identité du projet
 
-- **Caractère :** {{BRAND_CHARACTER}}
-- **Tonalité :** {{BRAND_TONE}}
-- **Couleur ou accent distinctif :** {{BRAND_ACCENT}}
-- **Densité :** {{INTERFACE_DENSITY}}
-- **Principe de différenciation :** {{VISUAL_DIFFERENTIATOR}}
+- **Caractère :** observatoire scientifique calme, précis et non promotionnel.
+- **Tonalité :** factuelle ; les incertitudes et limites sont visibles.
+- **Couleur ou accent distinctif :** cyan pour la série et l'information,
+  orange pour les limites non bloquantes.
+- **Densité :** intermédiaire sur mobile, plus analytique sur bureau.
+- **Principe de différenciation :** la courbe ne masque jamais sa provenance,
+  sa qualification brute ni ses diagnostics.
 
 ## Couleurs
 
@@ -60,7 +62,9 @@ La couleur ne constitue jamais l’unique indicateur : ajouter texte, forme, ic�
 
 ## Images et illustrations
 
-{{IMAGE_DIRECTION}}
+L'observatoire n'utilise pas de photographie ni d'illustration décorative. La
+visualisation SVG de la série est l'image principale ; elle est accompagnée
+d'une description textuelle et de métriques.
 
 Les visuels générés ou importés doivent être lisibles à leur taille réelle, sans texte intégré lorsque celui-ci doit rester accessible ou traduisible.
 
@@ -81,6 +85,9 @@ Les visuels générés ou importés doivent être lisibles à leur taille réell
 - textes gris trop faibles ;
 - animations permanentes ;
 - interfaces techniques exposant directement noms de fichiers, services ou adaptateurs sans nécessité utilisateur.
+
+L'observatoire est explicitement destiné aux mainteneurs : les noms et versions
+des adaptateurs y sont nécessaires pour qualifier le calcul.
 
 ## Contrastes et thèmes
 

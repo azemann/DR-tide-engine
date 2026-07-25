@@ -46,6 +46,27 @@ Intervenir sur ce projet sans perdre son intention, son vocabulaire ni ses invar
 - ne pas activer release, distribution ou exploitation uniquement parce que leurs modèles existent ;
 - préserver les chemins et sources de vérité existants lorsqu’un rôle documentaire peut y être mappé.
 
+## Invariants métier DR Tide Engine
+
+- réaliser tout calcul interne et exprimer toute borne temporelle en UTC ;
+- représenter les fenêtres temporelles par des intervalles semi-ouverts
+  `[début, fin[` sauf décision contraire documentée ;
+- conserver la provenance et la licence de la station dans tout résultat
+  publiable ou dérivé ;
+- refuser avant calcul toute station dont l'autorisation d'usage commercial
+  n'est pas explicitement vraie ;
+- ne jamais qualifier une hauteur brute d'officielle, de validée ou de navigable
+  sans référence verticale et protocole de validation prouvés ;
+- n'appliquer aucune correction locale implicitement : toute correction possède
+  une méthode, une version, une source et une trace dans le résultat ;
+- ne placer aucune logique Alexa, HTTP ou d'interface dans le moteur ;
+- traiter `TideSeries` comme une entrée immuable pour les diagnostics,
+  événements et validations dérivés ;
+- conserver pour tout événement dérivé l'identifiant de station, la source de
+  la série et la méthode de détection ;
+- distinguer explicitement valeur calculée, mesure dérivée, observation externe
+  et résultat validé.
+
 ## Validation minimale
 
 Avant livraison, exécuter les commandes réellement définies dans `project.yaml`, puis `./scripts/check-project.sh`. Vérifier : comportement demandé, tests pertinents, documentation touchée, absence de secret, cohérence avec le glossaire, accessibilité, rendu visuel, migration et retour arrière lorsque pertinents.

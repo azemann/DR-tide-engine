@@ -54,6 +54,29 @@ Ce document est normatif.
 - **Source :** format Neaps adapté par DR Tide Engine.
 - **Statut :** accepté.
 
+## Diagnostic de série
+
+- **Définition :** ensemble de mesures calculées sans mutation pour décrire la
+  complétude, l'ordre, la régularité et les bornes numériques d'une
+  `TideSeries`.
+- **Ne signifie pas :** validation scientifique, comparaison à une référence,
+  correction ou détection d'événement.
+- **Alias autorisés :** diagnostic structurel.
+- **Représentation technique :** `TideSeriesDiagnostics`.
+- **Source :** EF-005.
+- **Statut :** accepté.
+
+## Instantané d'observatoire
+
+- **Définition :** agrégat local et recalculable réunissant séries,
+  diagnostics, versions techniques et extraits des sources de vérité pour leur
+  visualisation.
+- **Ne signifie pas :** source de vérité, export public ou référence validée.
+- **Alias autorisés :** instantané local.
+- **Représentation technique :** `observatory-data.json`, schéma version 1.
+- **Source :** ADR-0007.
+- **Statut :** accepté.
+
 ## Licence de station
 
 - **Définition :** conditions déclarées pour l'utilisation des données d'une

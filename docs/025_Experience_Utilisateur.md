@@ -4,11 +4,14 @@
 
 À quelle question immédiate l’écran principal doit-il répondre ?
 
-> {{CENTRAL_USER_QUESTION}}
+> La série brute produite par le moteur est-elle structurellement saine,
+> traçable et cohérente avec l'état documenté du projet ?
 
 ## Promesse d’expérience
 
-{{EXPERIENCE_PROMISE}}
+Donner au mainteneur une lecture immédiate de la courbe, des diagnostics et des
+limites scientifiques, sans laisser l'interface recalculer ou requalifier une
+donnée.
 
 ## Principes UX
 
@@ -24,15 +27,21 @@
 
 | Espace | Question utilisateur | Contenu principal | Action principale |
 | --- | --- | --- | --- |
-| {{SPACE}} | {{USER_QUESTION}} | {{CONTENT}} | {{PRIMARY_ACTION}} |
+| En-tête | quelle version et quel jalon sont observés ? | version, commit, maturité et avertissement | aucune |
+| Série | quelle station et quelle fenêtre sont affichées ? | sélecteur, fenêtre UTC et courbe | changer de station |
+| Diagnostics | la structure de la série est-elle saine ? | décompte, ordre, pas, valeurs invalides, bornes brutes | inspecter |
+| Traçabilité | d'où viennent les valeurs ? | source, licence, adaptateurs et qualification | inspecter |
+| Projet | qu'est-ce qui est prouvé ou encore ouvert ? | roadmap et registre d'audit issus des sources de vérité | revenir aux documents |
 
 ## Parcours principal
 
-1. {{JOURNEY_ENTRY}}
-2. {{UNDERSTANDING}}
-3. {{USER_ACTION}}
-4. {{FEEDBACK}}
-5. {{RECOVERY_OR_CONTINUATION}}
+1. Le mainteneur génère un instantané pour une date UTC.
+2. L'écran montre immédiatement la qualification brute et l'interdiction de
+   navigation.
+3. Le mainteneur choisit Ouistreham ou Le Havre.
+4. La courbe, les métriques et la provenance se mettent à jour ensemble.
+5. En cas d'instantané absent, la page donne la commande de régénération ; en
+   cas de série dégradée, chaque compteur reste visible.
 
 ## États obligatoires
 
@@ -47,6 +56,10 @@ Pour chaque écran ou bloc alimenté par des données, définir :
 - dégradé ;
 - hors ligne, lorsque pertinent.
 
+L'observatoire local couvre chargement, vide, succès, erreur/indisponible et
+dégradé. Il n'a pas d'état de mutation ou d'action sensible. Après chargement,
+il reste utilisable sans accès à Internet.
+
 ## Responsive
 
 Le projet ne conçoit pas « une version mobile réduite », mais une hiérarchie adaptée à chaque espace disponible.
@@ -54,7 +67,7 @@ Le projet ne conçoit pas « une version mobile réduite », mais une hiérarchi
 - **téléphone compact :** une colonne, action principale immédiatement accessible ;
 - **téléphone pliable :** continuité lors du changement de posture et largeur ;
 - **tablette :** panneaux complémentaires sans étirer inutilement le contenu ;
-- **bureau :** densité accrue, raccourcis clavier et vues simultanées utiles ;
+- **bureau :** deux panneaux complémentaires lorsque la largeur le permet ;
 - **grands écrans :** largeur de lecture bornée et espaces latéraux exploités avec intention.
 
 ## Accessibilité

@@ -13,17 +13,19 @@ Les valeurs visuelles de référence sont déclarées dans `design/tokens.css`. 
 
 ## Composants fondamentaux
 
-- `AppShell` : cadre principal et zones sûres ;
-- `TopBar` / `SideBar` / `BottomNav` : navigation selon l’espace ;
-- `Panel` et `Card` : regroupement hiérarchique ;
-- `Button` : primaire, secondaire, discret, danger ;
-- `IconButton` : cible 48 px et libellé accessible ;
-- `Field`, `Select`, `Switch`, `Slider` : contrôles cohérents ;
-- `Badge` / `StatusChip` : état court, jamais seule source d’information ;
-- `Dialog`, `Drawer`, `BottomSheet` : profondeur adaptée au viewport ;
-- `Toast` : confirmation non bloquante ;
-- `EmptyState`, `ErrorState`, `Skeleton` : états structurels ;
-- `DiagnosticPanel` : détails techniques révélés sur demande.
+La première interface n'utilise que les composants nécessaires :
+
+- `AppShell` : largeur bornée, en-tête, contenu et pied ;
+- `Panel` : regroupement d'une responsabilité observable ;
+- `StationSelect` : unique contrôle, cible de 48 px et libellé visible ;
+- `Badge` : état court toujours complété par un texte ou un détail ;
+- `MetricCard` : libellé et valeur comparables ;
+- `SeriesChart` : SVG accessible, axe UTC et description textuelle ;
+- `LoadingState`, `EmptyState`, `ErrorState` : états structurels ;
+- `AuditList` et `ProgressList` : preuves issues des documents canoniques.
+
+Il n'existe ni navigation, ni dialogue, ni toast, ni action destructive dans
+cette tranche.
 
 ## États de composant
 
@@ -48,3 +50,9 @@ Chaque composant interactif pertinent définit : repos, survol, focus, actif, s�
 
 Chaque composant partagé précise : intention, anatomie, variantes, états, comportement responsive, clavier, accessibilité et exemples à éviter.
 
+## Implémentation actuelle
+
+`tools/observatory/styles.css` consomme les tokens canoniques sans les redéfinir.
+Le point de rupture principal recompose les panneaux en une colonne. La courbe
+peut défiler horizontalement sur petit écran afin de préserver ses axes sans
+créer de débordement de page.

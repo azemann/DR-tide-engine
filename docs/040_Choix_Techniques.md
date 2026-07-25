@@ -28,10 +28,10 @@ Le détail calculable appartient à `project.yaml`. Le présent document expliqu
 | Gestion des dépendances | npm avec `package-lock.json` | outil livré avec Node et installation reproductible | pnpm | taille des données installées |
 | Build et tâches | npm scripts et `tsc` | chaîne minimale sans framework | bundler | build complet avant CLI |
 | Frameworks/bibliothèques structurantes | aucun framework ; deux adaptateurs Neaps | réutiliser données et calcul réel sans importer leur modèle dans le domaine | paquet agrégateur `neaps`, calcul interne immédiat | dérive amont |
-| Interface | CLI minimale de diagnostic | prouver la tranche sans devenir un client métier | API | parsing manuel borné |
+| Interface | CLI JSON et observatoire HTML local sans framework | prouver et comprendre la tranche sans devenir un client métier | API, application web | validation visuelle désormais nécessaire |
 | Données | `@neaps/tide-database` version exacte | stations TICON et métadonnées de licence | copie locale des données | évolution des licences |
 | Tests | `node:test` et `node:assert/strict` | aucune dépendance de test additionnelle | Vitest | moins d'outillage de mocks |
-| Interface/design system | non applicable | aucune UI dans le moteur | aucune | aucun |
+| Interface/design system | HTML, CSS, SVG et tokens existants | vue locale remplaçable sans dépendance | framework de graphiques | code de rendu à maintenir |
 
 ## Dépendances
 
@@ -52,10 +52,13 @@ n'est pas recopiée dans le dépôt.
 ## Versions supportées
 
 Node.js 20 ou ultérieur. Les versions exactes des paquets et outils sont
-verrouillées dans `package-lock.json`.
+verrouillées dans `package-lock.json`. La présente tranche est vérifiée avec le
+runtime installé Node.js 24 ; la revalidation de la borne minimale Node 20 est
+explicitement différée à la demande du mainteneur.
 
 ## Commandes et artefacts réels
 
 Les commandes calculables vivent dans `project.yaml`. Le build de développement
-émet uniquement `dist/`, ignoré par Git. Aucun package, release, publication ou
-déploiement n'est actif.
+émet `dist/` et l'observatoire émet un instantané sous `data/generated/`, tous
+deux ignorés par Git. Le serveur écoute uniquement sur `127.0.0.1`. Aucun
+package, release, publication ou déploiement n'est actif.

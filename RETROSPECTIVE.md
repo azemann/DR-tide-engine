@@ -4,7 +4,7 @@
 
 ## Jalon examiné
 
-M1 — série harmonique brute sur 24 heures, 2026-07-25.
+M1.1 — diagnostics et observatoire local, 2026-07-25.
 
 ## Ce qui a fonctionné
 
@@ -13,6 +13,8 @@ M1 — série harmonique brute sur 24 heures, 2026-07-25.
 - les ports séparés ont rendu les tests de licence et de calcul lisibles ;
 - le calculateur réel a pu être utilisé sans laisser ses types entrer dans le
   domaine.
+- un diagnostic pur a rendu visibles les anomalies sans modifier le contrat ;
+- l'instantané local a permis une interface utile sans API ni dépendance web.
 
 ## Ce qui nous a ralentis
 
@@ -20,6 +22,9 @@ M1 — série harmonique brute sur 24 heures, 2026-07-25.
 - la documentation amont et le contenu de la version verrouillée différaient sur
   les datums ;
 - le calculateur inclut la borne finale, contrairement au contrat choisi.
+- la découverte automatique de `node --test` incluait aussi les sources
+  TypeScript ; un lanceur explicite, récursif et déterministe a été nécessaire ;
+- le sandbox interdisait l'écoute loopback sans autorisation dédiée.
 
 ## Hypothèses invalidées
 
@@ -29,10 +34,9 @@ M1 — série harmonique brute sur 24 heures, 2026-07-25.
 
 ## Complexité inutile introduite
 
-Aucune couche anticipant les extrema, l'API ou Alexa n'a été ajoutée. Le cas
-d'usage `GenerateTideSeries` est la seule couche supplémentaire par rapport au
-diagnostic ; il évite de placer l'orchestration et les erreurs métier dans la
-CLI.
+Aucune couche anticipant les extrema, l'API ou Alexa n'a été ajoutée.
+L'observatoire reste un client statique d'un instantané et n'introduit aucun
+second chemin de calcul.
 
 ## Décisions à conserver
 
@@ -40,6 +44,8 @@ CLI.
 - fenêtre UTC semi-ouverte ;
 - contrôle commercial avant calcul ;
 - hauteur explicitement brute.
+- diagnostic structurel distinct de la validation scientifique ;
+- données de démonstration générées et non committées.
 
 ## Décisions à revoir
 
@@ -59,3 +65,4 @@ les manifestes aux preuves réelles avant `development`.
 | --- | --- | --- | --- | --- |
 | RET-001 | Conserver AUD-004 ouvert jusqu'à validation verticale. | mainteneur | jalon validation | protocole et comparaison documentés |
 | RET-002 | Évaluer la détection d'extrema sans coupler `TideSeries` au calculateur. | mainteneur | M2 | tests d'événements sur séries validées |
+| RET-003 | Produire les captures multi-largeur et mesurer les contrastes de l'observatoire. | mainteneur | avant extension de l'interface | matrice visuelle entièrement prouvée |

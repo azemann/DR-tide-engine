@@ -37,3 +37,32 @@ cinq minutes et 288 hauteurs brutes finies et strictement ordonnées.
 
 Identité et métadonnées de station, licence, constituants harmoniques, fenêtre
 UTC, pas temporel, hauteur brute et provenance.
+
+## UC-002 — Observer une série brute
+
+- **Acteur :** mainteneur de DR Tide Engine
+- **Intention :** comprendre la forme et la qualité interne d'une série sans
+  conclure à son exactitude scientifique
+- **Préconditions :** build réussi et dépendances locales installées
+- **Déclencheur :** génération d'un instantané pour une date UTC
+
+### Parcours nominal
+
+1. Le script exécute le cas d'usage existant pour les deux stations.
+2. Le domaine calcule les diagnostics sans modifier les séries.
+3. Le script ajoute versions techniques, roadmap et audits ouverts.
+4. Le serveur loopback expose uniquement les ressources connues.
+5. Le mainteneur choisit une station et inspecte courbe, métriques et limites.
+
+### Variantes et erreurs
+
+- instantané absent : la page affiche la commande de génération ;
+- aucune série : la page affiche un état vide ;
+- anomalie structurelle : l'état dégradé et les compteurs restent visibles ;
+- source documentaire ou Git indisponible : l'information est marquée
+  indisponible, jamais inventée.
+
+### Résultat
+
+Une vue locale remplaçable affiche l'entrée réellement calculée et l'état
+documenté. Aucun résultat métier n'est produit par le navigateur.
