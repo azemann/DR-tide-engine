@@ -1,57 +1,74 @@
-# {{PROJECT_NAME}}
+# DR Tide Engine
 
-> {{ONE_SENTENCE_PURPOSE}}
+> Moteur open source de prédiction et de validation des marées, indépendant de toute interface Alexa, web ou mobile.
 
-La version du dépôt modèle est déclarée dans `VERSION`. Une adoption enregistre la version utilisée dans `project.adoption.yaml`; elle n’écrase pas le versionnement déjà présent d’un projet existant.
+## Objectif
 
-## Première utilisation
+DR Tide Engine doit :
 
-Ouvrir `START_HERE.md`, puis choisir :
+- charger des stations et leurs constantes harmoniques ;
+- calculer une courbe de hauteur d'eau dans le temps ;
+- détecter automatiquement pleines et basses mers ;
+- déterminer si la mer monte ou descend ;
+- appliquer plus tard des corrections locales par commune ;
+- produire des résultats traçables, attribués et validés.
 
-- projet neuf : `guides/NEW_PROJECT.md` ;
-- projet existant : `guides/EXISTING_PROJECT.md`.
+La Côte Fleurie constitue le périmètre pilote. La future Skill Alexa `skill-mar-e` sera un client du moteur, pas son cœur.
 
-Le choix est enregistré dans `project.adoption.yaml`. Les deux parcours convergent à `development`.
+## Périmètre V1
 
-## Sources de vérité
+- Cabourg
+- Dives-sur-Mer
+- Houlgate
+- Villers-sur-Mer
+- Deauville
+- Trouville-sur-Mer
+- Villerville
+- Honfleur
 
-- adoption de la méthode : `project.adoption.yaml` ;
-- présent opérationnel : `PROJECT_STATE.md` ;
-- technologie et livraison logicielle : `project.yaml` ;
-- vision, périmètre et exigences : rôles mappés dans le manifeste d’adoption ;
-- décisions structurantes : `docs/090_Decisions/` ;
-- futur : `docs/050_Roadmap.md` ;
-- versions publiées : `CHANGELOG.md` ;
-- apprentissage : `RETROSPECTIVE.md`.
+Stations candidates autorisant l'usage commercial :
 
-Un projet existant peut mapper un rôle vers un autre chemin. La numérotation de `docs/` n’est pas imposée.
+- Ouistreham — TICON-4 / CC BY 4.0 ;
+- Le Havre — TICON-4 / CC BY 4.0.
 
-## Validation
+Les stations CC BY-NC sont exclues du chemin de publication.
 
-```bash
-python3 -m pip install --requirement scripts/requirements-validation.txt
-./scripts/check-project.sh
+## Architecture cible
+
+```text
+src/
+├── domain/         types et règles métier
+├── stations/       chargement et sélection des stations
+├── harmonic/       calcul harmonique
+├── extrema/        détection pleines/basses mers
+├── corrections/    corrections locales
+├── validation/     comparaison aux références
+└── exports/        JSON, CSV, API
 ```
 
-Le contrôle sans argument lit le niveau courant. Il vérifie uniquement ce qui est actif ou requis à ce niveau et indique la prochaine action.
+## Première brique disponible
+
+L'inventaire recherche les stations harmoniques autour des communes de la Côte Fleurie et conserve distance, licence, datum et nombre de constituants.
 
 ```bash
-./scripts/check-project.sh development
-./scripts/check-project.sh --current --format json
+npm install
+npm run inventory
 ```
 
-Le workflow fourni auto-valide le dépôt modèle uniquement dans
-`azemann/project-template`. Dans tout dépôt copié ou adopté, il exécute
-`--current` : une CI verte ne peut donc pas contourner le niveau réellement
-déclaré.
+Résultat local :
 
-## Frontières logicielles
+```text
+data/generated/inventory-results.json
+```
 
-Pour un logiciel :
+## Règle de publication
 
-- `development` fabrique et vérifie le code ;
-- `release` produit un artefact immuable et qualifié ;
-- `distribution` publie ou déploie ce même artefact ;
-- `operation` observe, maintient, reprend et retire le système.
+Aucun port ne passe au statut `validated` avant :
 
-La CI de développement n’oblige pas à configurer la distribution
+1. vérification de la licence ;
+2. identification du datum lorsque des hauteurs sont publiées ;
+3. comparaison des heures de pleine et basse mer ;
+4. mesure des erreurs moyenne et maximale ;
+5. attribution claire des sources.
+
+La V1 privilégie les horaires et la tendance. Les hauteurs et coefficients viendront après validation de leur référence.
