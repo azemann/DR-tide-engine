@@ -54,4 +54,4 @@ Pour un logiciel :
 - `distribution` publie ou déploie ce même artefact ;
 - `operation` observe, maintient, reprend et retire le système.
 
-La CI de développement n’oblige pas à configurer la distribution.
+La CI de développement n’oblige pas à configurer la distribution
