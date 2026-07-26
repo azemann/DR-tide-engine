@@ -29,6 +29,7 @@ describe("NeapsStationRepository", () => {
 
     assert.ok(station);
     assert.equal(station.metadata.name, "Ouistreham");
+    assert.equal(station.metadata.timezone, "Europe/Paris");
     assert.equal(station.license.commercialUse, true);
     assert.equal(station.source.name, "TICON-4");
     assert.equal(station.harmonicConstituents.length, 50);
@@ -39,6 +40,7 @@ describe("NeapsStationRepository", () => {
 
     assert.ok(station);
     assert.equal(station.metadata.name, "Le Havre");
+    assert.equal(station.metadata.timezone, "Europe/Paris");
     assert.equal(station.license.commercialUse, true);
     assert.equal(station.source.name, "TICON-4");
     assert.equal(station.harmonicConstituents.length, 50);
@@ -79,6 +81,7 @@ describe("GenerateTideSeries", () => {
 
     assert.equal(series.startUtc, "2026-07-25T00:00:00.000Z");
     assert.equal(series.endUtc, "2026-07-26T00:00:00.000Z");
+    assert.equal(series.station.timezone, "Europe/Paris");
     assert.equal(series.stepMinutes, 5);
     assert.equal(series.samples.length, 288);
   });

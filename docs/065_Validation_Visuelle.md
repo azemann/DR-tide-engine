@@ -54,3 +54,6 @@ Le 2026-07-26 :
   18,10:1 selon la paire ; le focus visible atteint au minimum 8,93:1 ;
 - le contrat d'instantané v2, le serveur et les routes autorisées sont vérifiés
   séparément.
+- après l'ajout du double affichage temporel, le mainteneur a confirmé dans
+  l'observatoire réel la présence de l'UTC et de l'heure locale de Normandie ;
+  la modification conserve les mêmes composants et points de rupture.

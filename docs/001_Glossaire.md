@@ -44,6 +44,18 @@ Ce document est normatif.
 - **Source :** ADR-0006.
 - **Statut :** accepté.
 
+## Heure locale de station
+
+- **Définition :** représentation civile d'un instant UTC dans le fuseau IANA
+  déclaré par la station, incluant automatiquement les changements d'heure.
+- **Ne signifie pas :** nouvel instant métier, entrée du calcul ou heure
+  corrigée manuellement pour la Normandie.
+- **Alias autorisés :** heure locale.
+- **Représentation technique :** projection de `datetimeUtc` avec
+  `TideSeriesStation.timezone`.
+- **Source :** métadonnée de station adaptée depuis la source de données.
+- **Statut :** accepté.
+
 ## Source de station
 
 - **Définition :** provenance déclarée des métadonnées et constantes d'une
@@ -96,7 +108,7 @@ Ce document est normatif.
   visualisation.
 - **Ne signifie pas :** source de vérité, export public ou référence validée.
 - **Alias autorisés :** instantané local.
-- **Représentation technique :** `observatory-data.json`, schéma version 1.
+- **Représentation technique :** `observatory-data.json`, schéma version 2.
 - **Source :** ADR-0007.
 - **Statut :** accepté.
 

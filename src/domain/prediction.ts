@@ -21,6 +21,7 @@ export interface TideSample {
 export interface TideSeriesStation {
   readonly id: StationId;
   readonly name: string;
+  readonly timezone: string;
   readonly source: StationSource;
   readonly license: StationLicense;
 }

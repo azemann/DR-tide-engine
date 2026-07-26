@@ -237,6 +237,10 @@ dd {
   font: 13px var(--font-ui);
 }
 
+.chart-axis-label-local {
+  fill: var(--color-accent);
+}
+
 .chart-area {
   fill: rgb(66 199 232 / 10%);
 }

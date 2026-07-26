@@ -91,8 +91,8 @@ data/generated/inventory-results.json
 
 ## Observatoire local
 
-Afficher la courbe, les événements M2, leur qualification, la provenance et les
-limites connues :
+Afficher la courbe, les événements M2, leurs heures UTC et locales, leur
+qualification, la provenance et les limites connues :
 
 ```bash
 npm run observatory -- --date 2026-07-25
@@ -100,6 +100,10 @@ npm run observatory -- --date 2026-07-25
 
 Puis ouvrir `http://127.0.0.1:4173`. La page consomme un instantané recalculable
 et ne contient aucun calcul de marée.
+
+L'UTC reste la référence du moteur. L'heure locale est dérivée du fuseau IANA
+de la station (`Europe/Paris` pour Ouistreham et Le Havre), ce qui applique
+automatiquement l'heure d'été ou d'hiver à la date affichée.
 
 ## Règle de publication
 

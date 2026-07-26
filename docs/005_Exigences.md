@@ -14,6 +14,7 @@ Une exigence décrit un résultat vérifiable, pas une solution technique préma
 | EF-006 | Visualiser localement la courbe, ses diagnostics, sa provenance et l'état du projet sans logique métier dans le navigateur. | Besoin d'observabilité | utile au développement | Un instantané réel des deux stations est généré et servi par des routes loopback explicites. | acceptée |
 | EF-007 | Détecter les maxima et minima locaux d'une série saine sans modifier la série ni dépendre du calculateur. | Jalon M2 | indispensable | Extrema stricts, plateaux, monotonie et proximité des bornes sont testés sur séries synthétiques ; les deux stations réelles produisent des événements ordonnés et alternés. | acceptée |
 | EF-008 | Visualiser les événements M2 sans les recalculer ni les présenter comme officiels. | Jalon M3 | utile au développement | L'instantané v2 conserve `TideEventsResult` ; la courbe et la liste distinguent PM, BM, extrema stricts et plateaux sur les deux stations. | acceptée |
+| EF-009 | Afficher l'UTC canonique et l'heure locale de la station sans modifier les instants calculés. | Besoin d'interprétation locale | utile au développement | `TideSeries` conserve le fuseau IANA ; fenêtres, axe et événements montrent UTC et heure locale, avec le décalage saisonnier dérivé. | acceptée |
 
 ## Qualités attendues
 
@@ -33,7 +34,7 @@ visuelle sont actives ; l'exploitation publique reste différée.
 
 | ID | Contrainte | Origine | Conséquence | Réexamen |
 | --- | --- | --- | --- | --- |
-| EC-001 | Calcul interne en UTC. | Architecture du moteur | aucune date locale ambiguë dans le domaine | si un contrat temporel public évolue |
+| EC-001 | Calcul interne en UTC. | Architecture du moteur | aucune date locale ambiguë dans le domaine ; l'heure locale est une projection d'affichage dérivée du fuseau de station | si un contrat temporel public évolue |
 | EC-002 | Aucune station CC BY-NC dans le chemin publiable. | Politique de licence V1 | contrôle avant toute prédiction | à chaque changement de source |
 | EC-003 | Résultat non destiné à la navigation. | Limites des données et du calcul | avertissement documentaire et aucune revendication officielle | avant toute release |
 | EC-004 | Aucune fausse précision ou datum non validé. | Qualité scientifique | la hauteur reste explicitement brute | jalon de validation des hauteurs |
@@ -45,4 +46,5 @@ EF-001 à EF-004 sont reliées à UC-001. EF-005 est prouvée par les tests de
 diagnostic. EF-006 est bornée par l'ADR-0007 et la recette de validation
 visuelle. EF-007 est reliée à UC-003 et aux tests synthétiques et réels du
 détecteur. EF-008 est prouvée par le contrôle d'instantané et la matrice visuelle
-M3.
+M3. EF-009 est prouvée par le contrat de série, le contrôle d'instantané et la
+recette visuelle de l'observatoire.

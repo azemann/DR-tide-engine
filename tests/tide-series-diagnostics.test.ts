@@ -11,6 +11,7 @@ function syntheticSeries(
     station: {
       id: createStationId("synthetic/diagnostics"),
       name: "Synthetic diagnostics",
+      timezone: "UTC",
       source: {
         name: "DR Tide Engine tests",
         stationId: "diagnostics",

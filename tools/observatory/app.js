@@ -9,6 +9,7 @@ const elements = {
   badges: document.querySelector("#engine-badges"),
   station: document.querySelector("#station-select"),
   window: document.querySelector("#window-value"),
+  localWindow: document.querySelector("#local-window-value"),
   generated: document.querySelector("#generated-value"),
   chart: document.querySelector("#tide-chart"),
   chartDescription: document.querySelector("#chart-description"),
@@ -41,19 +42,35 @@ function formatNumber(value) {
 }
 
 function formatUtc(value) {
+  return formatDatetime(value, "UTC");
+}
+
+function formatDatetime(value, timeZone) {
   return new Intl.DateTimeFormat("fr-FR", {
     dateStyle: "medium",
     timeStyle: "short",
-    timeZone: "UTC",
+    timeZone,
   }).format(new Date(value));
 }
 
-function formatUtcTime(value) {
+function formatTime(value, timeZone) {
   return new Intl.DateTimeFormat("fr-FR", {
     hour: "2-digit",
     minute: "2-digit",
-    timeZone: "UTC",
+    hourCycle: "h23",
+    timeZone,
   }).format(new Date(value));
+}
+
+function formatTimezone(timeZone, value) {
+  const formatter = new Intl.DateTimeFormat("fr-FR", {
+    timeZone,
+    timeZoneName: "shortOffset",
+  });
+  const offset = formatter
+    .formatToParts(new Date(value))
+    .find((part) => part.type === "timeZoneName")?.value;
+  return offset === undefined ? timeZone : `${timeZone} · ${offset}`;
 }
 
 function svgElement(tagName, attributes = {}) {
@@ -64,10 +81,10 @@ function svgElement(tagName, attributes = {}) {
   return element;
 }
 
-function eventTimeLabel(time) {
+function eventTimeLabel(time, timeZone) {
   return time.kind === "sample"
-    ? `${formatUtcTime(time.datetimeUtc)} UTC`
-    : `${formatUtcTime(time.firstSampleUtc)}–${formatUtcTime(time.lastSampleUtc)} UTC`;
+    ? formatTime(time.datetimeUtc, timeZone)
+    : `${formatTime(time.firstSampleUtc, timeZone)}–${formatTime(time.lastSampleUtc, timeZone)}`;
 }
 
 function eventStartUtc(time) {
@@ -84,8 +101,8 @@ function eventTypeLabel(type) {
 
 function renderChart(series, diagnostics, tideEvents) {
   const width = 1000;
-  const height = 360;
-  const margin = { top: 24, right: 24, bottom: 44, left: 70 };
+  const height = 380;
+  const margin = { top: 24, right: 24, bottom: 64, left: 70 };
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.top - margin.bottom;
   const values = series.samples.filter(
@@ -141,14 +158,36 @@ function renderChart(series, diagnostics, tideEvents) {
 
   for (let hour = 0; hour <= 24; hour += 6) {
     const gridX = margin.left + (plotWidth * hour) / 24;
-    const label = svgElement("text", {
+    const utcLabel = svgElement("text", {
       class: "chart-axis-label",
+      x: gridX,
+      y: height - 34,
+      "text-anchor": hour === 0 ? "start" : hour === 24 ? "end" : "middle",
+    });
+    utcLabel.textContent = `${String(hour).padStart(2, "0")}:00`;
+    const instant = new Date(start + hour * 60 * 60_000).toISOString();
+    const localLabel = svgElement("text", {
+      class: "chart-axis-label chart-axis-label-local",
       x: gridX,
       y: height - 14,
       "text-anchor": hour === 0 ? "start" : hour === 24 ? "end" : "middle",
     });
-    label.textContent = `${String(hour).padStart(2, "0")}:00`;
-    elements.chart.append(label);
+    localLabel.textContent = formatTime(instant, series.station.timezone);
+    elements.chart.append(utcLabel, localLabel);
+  }
+
+  for (const [labelText, labelY, className] of [
+    ["UTC", height - 34, "chart-axis-label"],
+    ["locale", height - 14, "chart-axis-label chart-axis-label-local"],
+  ]) {
+    const rowLabel = svgElement("text", {
+      class: className,
+      x: margin.left - 12,
+      y: labelY,
+      "text-anchor": "end",
+    });
+    rowLabel.textContent = labelText;
+    elements.chart.append(rowLabel);
   }
 
   const points = values.map((sample) => `${x(sample.datetimeUtc)},${y(sample.height)}`);
@@ -173,7 +212,7 @@ function renderChart(series, diagnostics, tideEvents) {
     });
     const title = svgElement("title");
     title.textContent =
-      `${eventTypeLabel(event.type)}, ${eventTimeLabel(event.time)}, valeur brute ${formatNumber(event.rawHeight)}`;
+      `${eventTypeLabel(event.type)}, ${eventTimeLabel(event.time, "UTC")} UTC / ${eventTimeLabel(event.time, series.station.timezone)} heure locale, valeur brute ${formatNumber(event.rawHeight)}`;
     group.append(title);
 
     if (event.time.kind === "plateau") {
@@ -209,7 +248,7 @@ function renderChart(series, diagnostics, tideEvents) {
     `Courbe de ${values.length} échantillons de ${formatNumber(diagnostics.minimumRawHeight)} à ${formatNumber(diagnostics.maximumRawHeight)}, avec ${tideEvents.events.length} événements discrets.`;
 }
 
-function renderEvents(tideEvents) {
+function renderEvents(tideEvents, timeZone) {
   const highCount = tideEvents.events.filter(
     (event) => event.type === "high",
   ).length;
@@ -236,7 +275,11 @@ function renderEvents(tideEvents) {
       const details = document.createElement("dl");
       details.className = "event-details";
       for (const [term, definition] of [
-        ["Heure UTC", eventTimeLabel(event.time)],
+        ["Heure UTC", `${eventTimeLabel(event.time, "UTC")} UTC`],
+        [
+          "Heure locale",
+          `${eventTimeLabel(event.time, timeZone)} (${formatTimezone(timeZone, eventStartUtc(event.time))})`,
+        ],
         ["Valeur brute", formatNumber(event.rawHeight)],
         [
           "Qualification",
@@ -299,6 +342,7 @@ function renderMetrics(diagnostics) {
 function renderDetails(data, prediction) {
   const details = [
     ["Station", prediction.series.station.id],
+    ["Fuseau local", prediction.series.station.timezone],
     ["Source", prediction.series.station.source.name],
     ["Licence", prediction.series.station.license.type],
     ["Usage commercial", prediction.series.station.license.commercialUse ? "autorisé" : "interdit"],
@@ -359,10 +403,12 @@ function renderPrediction(data, index) {
   const { series, diagnostics, tideEvents } = prediction;
   elements.window.textContent =
     `${formatUtc(series.startUtc)} → ${formatUtc(series.endUtc)} (fin exclue)`;
+  elements.localWindow.textContent =
+    `${formatDatetime(series.startUtc, series.station.timezone)} → ${formatDatetime(series.endUtc, series.station.timezone)} (fin exclue, ${formatTimezone(series.station.timezone, series.startUtc)})`;
   elements.chartSummary.textContent =
-    `${series.stepMinutes} minutes · ${series.samples.length} points · UTC`;
+    `${series.stepMinutes} minutes · ${series.samples.length} points · UTC + heure locale`;
   renderChart(series, diagnostics, tideEvents);
-  renderEvents(tideEvents);
+  renderEvents(tideEvents, series.station.timezone);
   renderMetrics(diagnostics);
   renderDetails(data, prediction);
 }

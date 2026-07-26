@@ -36,8 +36,10 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
   événements stricts, ordonnés et alternés.
 - L'instantané d'observatoire v2 conserve les événements M2 et son contrôle est
   intégré à `npm test`.
-- La page affiche marqueurs PM/BM, heures UTC, valeurs brutes, qualifications et
-  méthode ; le changement de station met à jour l'ensemble de la vue.
+- La série conserve le fuseau IANA de sa station ; l'UTC reste canonique.
+- La page affiche marqueurs PM/BM, heures UTC et locales, valeurs brutes,
+  qualifications et méthode ; le changement de station met à jour l'ensemble
+  de la vue.
 - Le rendu chargé est inspecté à 360, 390, 768, 1024 et 1280 px ; les contrastes
   textuels et le focus respectent les seuils documentés.
 - Les tests, le typecheck, le build, la génération de l'instantané et les routes
@@ -73,6 +75,8 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
   réels ont été ajoutés ; ADR-0008 fixe plateaux, bornes et précision.
 - L'observatoire affiche les événements via l'instantané v2 ; ADR-0009 interdit
   tout recalcul métier dans la page.
+- L'heure locale est projetée depuis `station.timezone`, sans décalage
+  Normandie codé en dur ni modification des instants UTC.
 
 ## Décisions et blocages actuels
 
@@ -112,4 +116,6 @@ d'appariement, les seuils et les limites avant tout raffinement temporel.
 - démonstration : instantané réel des deux stations et routes HTTP vérifiés
 - interface M3 : captures temporaires inspectées aux cinq largeurs, changement
   vers Le Havre vérifié et contrastes mesurés le 2026-07-26
+- heure locale : fuseau `Europe/Paris` contrôlé dans le JSON et double affichage
+  UTC/local confirmé dans l'observatoire réel par le mainteneur le 2026-07-26
 - audit : AUD-001 à AUD-003 clos ; AUD-004 et AUD-005 ouverts

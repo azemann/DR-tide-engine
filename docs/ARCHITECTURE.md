@@ -104,6 +104,12 @@ Une journée civile demandée par la CLI devient la fenêtre UTC semi-ouverte
 `[00:00:00.000Z, 00:00:00.000Z le lendemain[`. Avec un pas de cinq minutes,
 elle contient exactement 288 instants. `endUtc` est la borne exclusive.
 
+`TideSeriesStation.timezone` conserve le fuseau IANA adapté avec la station.
+Ce champ ne participe ni à la fenêtre ni au calcul harmonique : les clients
+peuvent projeter les mêmes instants UTC en heure civile locale sans créer un
+second contrat temporel. Pour les deux stations actuelles, ce fuseau est
+`Europe/Paris`.
+
 ## Sources de vérité
 
 | Information | Source canonique |
@@ -155,3 +161,7 @@ diagnostics et provenance.
 
 ADR-0009 interdit à la page de recalculer un extremum, choisir le centre d'un
 plateau ou requalifier un événement.
+
+L'observatoire affiche les deux lectures du même instant : UTC canonique et
+heure locale dérivée du fuseau de station. Le décalage saisonnier n'est jamais
+codé en dur.

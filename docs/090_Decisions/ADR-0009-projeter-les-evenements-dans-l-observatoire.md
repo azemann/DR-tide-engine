@@ -20,8 +20,10 @@ La page :
 - positionne les événements à partir de `TideEvent.time` et `rawHeight` ;
 - affiche un marqueur textuel PM ou BM, complété par une couleur ;
 - représente un plateau par un segment et son intervalle textuel ;
-- répète type, heure UTC, valeur brute, qualification et méthode dans une liste
-  accessible ;
+- répète type, heure UTC, heure locale dérivée du fuseau IANA de station,
+  valeur brute, qualification et méthode dans une liste accessible ;
+- garde l'UTC comme axe canonique et ajoute une seconde ligne d'axe locale sans
+  transformer les instants du domaine ;
 - change courbe, événements, diagnostics et provenance comme un seul ensemble
   lors du changement de station.
 
@@ -31,6 +33,8 @@ La page :
 - générateur et page évoluent ensemble pour le schéma local recalculable ;
 - la page ne dépend toujours pas de Neaps ;
 - l'affichage reste explicitement discret, brut et non officiel ;
+- le changement d'heure est délégué aux règles IANA du navigateur, jamais à un
+  décalage Normandie codé en dur ;
 - `npm test` vérifie désormais le contrat d'instantané v2.
 
 ## Alternatives écartées

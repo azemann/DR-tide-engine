@@ -17,6 +17,7 @@ function syntheticSeries(heights: readonly number[]): TideSeries {
     station: {
       id: createStationId("synthetic/extrema"),
       name: "Synthetic extrema",
+      timezone: "UTC",
       source: {
         name: "DR Tide Engine tests",
         stationId: "extrema",

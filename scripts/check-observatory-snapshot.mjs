@@ -13,6 +13,12 @@ assert.equal(snapshot.predictions.length, 2);
 
 for (const prediction of snapshot.predictions) {
   const { series, diagnostics, tideEvents } = prediction;
+  assert.equal(series.station.timezone, "Europe/Paris");
+  assert.doesNotThrow(() => {
+    new Intl.DateTimeFormat("fr-FR", {
+      timeZone: series.station.timezone,
+    }).format(new Date(series.startUtc));
+  });
   assert.equal(tideEvents.station.id, series.station.id);
   assert.equal(tideEvents.sourceSeriesStartUtc, series.startUtc);
   assert.equal(tideEvents.sourceSeriesEndUtc, series.endUtc);

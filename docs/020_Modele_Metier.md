@@ -19,7 +19,9 @@
 - `HarmonicConstituent` : nom, amplitude et phase finis ;
 - `PredictionRequest` : station normalisée, début, fin et pas ;
 - `TideSample` : instant UTC et hauteur brute finie ;
-- `TideSeries` : métadonnées de fenêtre et échantillons ordonnés.
+- `TideSeriesStation` : identité, fuseau IANA, source et licence de la station
+  attachés à une série ;
+- `TideSeries` : métadonnées de fenêtre UTC et échantillons ordonnés.
 - `TideSeriesDiagnostics` : mesure immuable de la structure d'une série
   existante : effectif attendu, trous, doublons, ordre, régularité, valeurs non
   finies, minimum, maximum et amplitude bruts.
@@ -46,6 +48,8 @@ station, sa source et sa licence.
 - les échantillons appartiennent à `[début, fin[` et sont strictement ordonnés ;
 - toutes les amplitudes, phases et hauteurs sont des nombres finis ;
 - la source et la licence de la série sont celles de la station calculée.
+- le fuseau de la série est celui de la station ; il sert uniquement à projeter
+  les instants UTC en heure civile locale ;
 - une série source invalide n'est ni triée ni corrigée par le détecteur ;
 - les deux bornes de la série ne sont jamais qualifiées comme extrema ;
 - un plateau est qualifié uniquement lorsqu'il possède deux voisins externes ;

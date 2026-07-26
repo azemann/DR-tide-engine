@@ -63,6 +63,7 @@ export class NeapsTidePredictor implements TidePredictor {
       station: {
         id: request.station.id,
         name: request.station.metadata.name,
+        timezone: request.station.metadata.timezone,
         source: request.station.source,
         license: request.station.license,
       },

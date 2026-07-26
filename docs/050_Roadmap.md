@@ -30,6 +30,7 @@ Objectif : détecter automatiquement les extrema à partir de la série validée
 - [x] vérifier le changement Ouistreham / Le Havre ;
 - [x] inspecter 360, 390, 768, 1024 et 1280 px ;
 - [x] mesurer les contrastes des rôles textuels et du focus ;
+- [x] afficher UTC et heure locale de station sans changer le calcul ;
 - [x] ne déplacer aucune logique de détection dans le navigateur.
 
 ## M4 — Maintenant : comparaison aux références

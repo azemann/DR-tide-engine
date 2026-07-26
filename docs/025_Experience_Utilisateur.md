@@ -28,8 +28,8 @@ donnée.
 | Espace | Question utilisateur | Contenu principal | Action principale |
 | --- | --- | --- | --- |
 | En-tête | quelle version et quel jalon sont observés ? | version, commit, maturité et avertissement | aucune |
-| Série | quelle station et quelle fenêtre sont affichées ? | sélecteur, fenêtre UTC et courbe | changer de station |
-| Événements | quand apparaissent les extrema discrets et comment sont-ils qualifiés ? | marqueurs PM/BM, heures UTC, hauteur brute, qualification et méthode | inspecter |
+| Série | quelle station et quelle fenêtre sont affichées ? | sélecteur, fenêtres UTC et locale, courbe à double axe horaire | changer de station |
+| Événements | quand apparaissent les extrema discrets et comment sont-ils qualifiés ? | marqueurs PM/BM, heures UTC et locale, hauteur brute, qualification et méthode | inspecter |
 | Diagnostics | la structure de la série est-elle saine ? | décompte, ordre, pas, valeurs invalides, bornes brutes | inspecter |
 | Traçabilité | d'où viennent les valeurs ? | source, licence, adaptateurs et qualification | inspecter |
 | Projet | qu'est-ce qui est prouvé ou encore ouvert ? | roadmap et registre d'audit issus des sources de vérité | revenir aux documents |
@@ -44,6 +44,9 @@ donnée.
    ensemble.
 5. En cas d'instantané absent, la page donne la commande de régénération ; en
    cas de série dégradée, chaque compteur reste visible.
+
+L'heure locale est toujours dérivée du fuseau IANA fourni par la série. L'UTC
+reste affiché en premier et aucun décalage saisonnier n'est saisi manuellement.
 
 ## États obligatoires
 

@@ -26,7 +26,7 @@ Documenter ici les concepts techniquement proches mais non interchangeables, par
 
 | Schéma | Format | Version actuelle | Compatibilité lecture | Compatibilité écriture | Emplacement |
 | --- | --- | --- | --- | --- | --- |
-| `TideSeries` | JSON / types TypeScript | contrat 0.1.0 | stricte dans la tranche M1 | sérialisation déterministe | `src/domain/prediction.ts` |
+| `TideSeries` | JSON / types TypeScript | contrat 0.1.0, ajout compatible `station.timezone` | accepte les champs JSON additionnels | sérialisation déterministe | `src/domain/prediction.ts` |
 | `TideSeriesDiagnostics` | objet TypeScript inclus dans l'instantané | contrat 0.1.0 | stricte | génération locale seulement | `src/domain/tide-series-diagnostics.ts` |
 | `TideEventsResult` | objet TypeScript | méthode `discrete-local-extremum-v1` | stricte dans M2 | génération pure seulement | `src/domain/tide-events.ts` |
 | instantané d'observatoire | JSON | `schemaVersion: 2` | version exacte | remplacement atomique non garanti, usage local | `data/generated/observatory-data.json` |
@@ -36,6 +36,8 @@ Documenter ici les concepts techniquement proches mais non interchangeables, par
 - le JSON de `TideSeries` est ouvert et indépendant des types Neaps ;
 - la validation est effectuée aux frontières et les erreurs sont stables ;
 - les identifiants, sources et licences sont conservés ;
+- le fuseau IANA de la station suit la série ; les instants restent sérialisés
+  exclusivement en UTC et l'heure locale est dérivée par les clients ;
 - le snapshot local est dérivé, recalculable, ignoré par Git et non publiable.
 
 ## Migrations
@@ -45,5 +47,6 @@ Il n'existe aucune donnée persistante à migrer. Un changement de
 modifier ensemble générateur et page ; le retour arrière consiste à régénérer
 avec la version précédente.
 
-La version 2 ajoute `tideEvents` à chaque prédiction. Elle ne modifie ni
-`TideSeries`, ni le JSON de la CLI `predict`.
+La version 2 ajoute `tideEvents` à chaque prédiction. L'ajout ultérieur de
+`station.timezone` à `TideSeries` est compatible en lecture JSON : il ne
+renomme ni ne réinterprète aucun champ UTC existant.
