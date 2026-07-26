@@ -22,5 +22,6 @@ npm run observatory:serve
 ```
 
 Le fichier `data/generated/observatory-data.json` est local et ignoré par Git.
-La page affiche les ordonnées harmoniques brutes sans les qualifier de hauteurs
-officielles. Elle ne détecte encore aucun événement de marée.
+La page affiche les ordonnées harmoniques brutes et les événements discrets
+produits par le domaine sans les qualifier de hauteurs ou horaires officiels.
+Elle ne recalcule et ne détecte rien dans le navigateur.

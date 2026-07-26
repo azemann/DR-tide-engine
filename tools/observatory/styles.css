@@ -249,10 +249,98 @@ dd {
   vector-effect: non-scaling-stroke;
 }
 
-.chart-point {
-  fill: var(--color-bg);
-  stroke: var(--color-accent);
+.chart-event-point {
+  fill: var(--color-bg-elevated);
   stroke-width: 3;
+}
+
+.chart-event-high .chart-event-point,
+.chart-event-high .chart-event-plateau {
+  stroke: var(--color-accent);
+}
+
+.chart-event-low .chart-event-point,
+.chart-event-low .chart-event-plateau {
+  stroke: var(--color-warning);
+}
+
+.chart-event-plateau {
+  stroke-linecap: round;
+  stroke-width: 8;
+}
+
+.chart-event-label {
+  fill: var(--color-text);
+  font: 700 10px var(--font-ui);
+  pointer-events: none;
+}
+
+.inline-empty {
+  padding: var(--space-4);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+}
+
+.events-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.event-card {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-left-width: var(--space-1);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.event-high {
+  border-left-color: var(--color-accent);
+}
+
+.event-low {
+  border-left-color: var(--color-warning);
+}
+
+.event-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.event-type {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.event-details {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.event-details > div {
+  display: grid;
+  grid-template-columns: minmax(7rem, 1fr) 2fr;
+  gap: var(--space-3);
+}
+
+.event-details dd {
+  overflow-wrap: anywhere;
 }
 
 .metrics-grid {
@@ -370,6 +458,10 @@ footer {
   .metrics-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .events-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 30rem) {
@@ -388,5 +480,10 @@ footer {
   .audit-item {
     grid-template-columns: 1fr;
     gap: var(--space-2);
+  }
+
+  .event-details > div {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
   }
 }

@@ -13,6 +13,9 @@ const elements = {
   chart: document.querySelector("#tide-chart"),
   chartDescription: document.querySelector("#chart-description"),
   chartSummary: document.querySelector("#chart-summary"),
+  eventsBadge: document.querySelector("#events-badge"),
+  eventsEmpty: document.querySelector("#events-empty"),
+  eventsList: document.querySelector("#events-list"),
   metrics: document.querySelector("#metrics-grid"),
   quality: document.querySelector("#quality-badge"),
   provenance: document.querySelector("#provenance-list"),
@@ -45,6 +48,14 @@ function formatUtc(value) {
   }).format(new Date(value));
 }
 
+function formatUtcTime(value) {
+  return new Intl.DateTimeFormat("fr-FR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  }).format(new Date(value));
+}
+
 function svgElement(tagName, attributes = {}) {
   const element = document.createElementNS(svgNamespace, tagName);
   for (const [name, value] of Object.entries(attributes)) {
@@ -53,7 +64,25 @@ function svgElement(tagName, attributes = {}) {
   return element;
 }
 
-function renderChart(series, diagnostics) {
+function eventTimeLabel(time) {
+  return time.kind === "sample"
+    ? `${formatUtcTime(time.datetimeUtc)} UTC`
+    : `${formatUtcTime(time.firstSampleUtc)}–${formatUtcTime(time.lastSampleUtc)} UTC`;
+}
+
+function eventStartUtc(time) {
+  return time.kind === "sample" ? time.datetimeUtc : time.firstSampleUtc;
+}
+
+function eventEndUtc(time) {
+  return time.kind === "sample" ? time.datetimeUtc : time.lastSampleUtc;
+}
+
+function eventTypeLabel(type) {
+  return type === "high" ? "Pleine mer discrète" : "Basse mer discrète";
+}
+
+function renderChart(series, diagnostics, tideEvents) {
   const width = 1000;
   const height = 360;
   const margin = { top: 24, right: 24, bottom: 44, left: 70 };
@@ -135,26 +164,99 @@ function renderChart(series, diagnostics) {
     }),
   );
 
-  for (const extreme of [
-    { value: diagnostics.minimumRawHeight, label: "minimum brut" },
-    { value: diagnostics.maximumRawHeight, label: "maximum brut" },
-  ]) {
-    const sample = values.find((candidate) => candidate.height === extreme.value);
-    if (sample === undefined) continue;
-    const point = svgElement("circle", {
-      class: "chart-point",
-      cx: x(sample.datetimeUtc),
-      cy: y(sample.height),
-      r: 5,
+  for (const event of tideEvents.events) {
+    const firstX = x(eventStartUtc(event.time));
+    const lastX = x(eventEndUtc(event.time));
+    const eventY = y(event.rawHeight);
+    const group = svgElement("g", {
+      class: `chart-event chart-event-${event.type}`,
     });
     const title = svgElement("title");
-    title.textContent = `${extreme.label}: ${formatNumber(sample.height)}, ${formatUtc(sample.datetimeUtc)} UTC`;
-    point.append(title);
-    elements.chart.append(point);
+    title.textContent =
+      `${eventTypeLabel(event.type)}, ${eventTimeLabel(event.time)}, valeur brute ${formatNumber(event.rawHeight)}`;
+    group.append(title);
+
+    if (event.time.kind === "plateau") {
+      group.append(
+        svgElement("line", {
+          class: "chart-event-plateau",
+          x1: firstX,
+          x2: lastX,
+          y1: eventY,
+          y2: eventY,
+        }),
+      );
+    }
+
+    const marker = svgElement("circle", {
+      class: "chart-event-point",
+      cx: event.time.kind === "sample" ? firstX : (firstX + lastX) / 2,
+      cy: eventY,
+      r: 12,
+    });
+    const markerLabel = svgElement("text", {
+      class: "chart-event-label",
+      x: event.time.kind === "sample" ? firstX : (firstX + lastX) / 2,
+      y: eventY + 4,
+      "text-anchor": "middle",
+    });
+    markerLabel.textContent = event.type === "high" ? "PM" : "BM";
+    group.append(marker, markerLabel);
+    elements.chart.append(group);
   }
 
   elements.chartDescription.textContent =
-    `Courbe de ${values.length} échantillons de ${formatNumber(diagnostics.minimumRawHeight)} à ${formatNumber(diagnostics.maximumRawHeight)}.`;
+    `Courbe de ${values.length} échantillons de ${formatNumber(diagnostics.minimumRawHeight)} à ${formatNumber(diagnostics.maximumRawHeight)}, avec ${tideEvents.events.length} événements discrets.`;
+}
+
+function renderEvents(tideEvents) {
+  const highCount = tideEvents.events.filter(
+    (event) => event.type === "high",
+  ).length;
+  const lowCount = tideEvents.events.length - highCount;
+  elements.eventsBadge.textContent =
+    `${highCount} PM · ${lowCount} BM`;
+  elements.eventsBadge.className =
+    `badge ${tideEvents.events.length > 0 ? "badge-success" : "badge-warning"}`;
+  elements.eventsEmpty.hidden = tideEvents.events.length > 0;
+  elements.eventsList.replaceChildren(
+    ...tideEvents.events.map((event) => {
+      const item = document.createElement("li");
+      item.className = `event-card event-${event.type}`;
+      const heading = document.createElement("div");
+      heading.className = "event-heading";
+      heading.append(
+        textElement(
+          "span",
+          "event-type",
+          event.type === "high" ? "PM" : "BM",
+        ),
+        textElement("strong", "", eventTypeLabel(event.type)),
+      );
+      const details = document.createElement("dl");
+      details.className = "event-details";
+      for (const [term, definition] of [
+        ["Heure UTC", eventTimeLabel(event.time)],
+        ["Valeur brute", formatNumber(event.rawHeight)],
+        [
+          "Qualification",
+          event.qualification === "strict"
+            ? "extremum strict échantillonné"
+            : "plateau échantillonné",
+        ],
+        ["Méthode", event.detectionMethod],
+      ]) {
+        const row = document.createElement("div");
+        row.append(
+          textElement("dt", "", term),
+          textElement("dd", "", definition),
+        );
+        details.append(row);
+      }
+      item.append(heading, details);
+      return item;
+    }),
+  );
 }
 
 function renderMetrics(diagnostics) {
@@ -254,12 +356,13 @@ function renderAudits(data) {
 
 function renderPrediction(data, index) {
   const prediction = data.predictions[index];
-  const { series, diagnostics } = prediction;
+  const { series, diagnostics, tideEvents } = prediction;
   elements.window.textContent =
     `${formatUtc(series.startUtc)} → ${formatUtc(series.endUtc)} (fin exclue)`;
   elements.chartSummary.textContent =
     `${series.stepMinutes} minutes · ${series.samples.length} points · UTC`;
-  renderChart(series, diagnostics);
+  renderChart(series, diagnostics, tideEvents);
+  renderEvents(tideEvents);
   renderMetrics(diagnostics);
   renderDetails(data, prediction);
 }

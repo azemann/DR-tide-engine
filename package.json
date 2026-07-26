@@ -8,10 +8,11 @@
     "build": "tsc -p tsconfig.json",
     "inventory": "node scripts/inventory-cote-fleurie.mjs",
     "observatory": "npm run build --silent && node scripts/run-observatory.mjs",
+    "observatory:check": "node scripts/generate-observatory-data.mjs --date 2026-07-25 && node scripts/check-observatory-snapshot.mjs",
     "observatory:data": "npm run build --silent && node scripts/generate-observatory-data.mjs",
     "observatory:serve": "node scripts/serve-observatory.mjs",
     "predict": "npm run build --silent && node dist/src/cli/predict.js",
-    "test": "npm run build --silent && node scripts/run-tests.mjs",
+    "test": "npm run build --silent && node scripts/run-tests.mjs && npm run observatory:check --silent",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

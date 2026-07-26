@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { promisify } from "node:util";
 
 import { runPredictCommand } from "../dist/src/cli/predict.js";
+import { detectTideEvents } from "../dist/src/domain/tide-events.js";
 import { analyzeTideSeries } from "../dist/src/domain/tide-series-diagnostics.js";
 
 const execFileAsync = promisify(execFile);
@@ -51,7 +52,7 @@ async function readGitState() {
 function readRoadmap(markdown) {
   return [...markdown.matchAll(/^- \[([ x])\] (.+);?$/gm)].map(
     ([, marker, label]) => ({
-      label: label.replace(/;$/, ""),
+      label: label.replace(/;$/, "").replaceAll("`", ""),
       status: marker === "x" ? "complete" : "planned",
     }),
   );
@@ -89,17 +90,18 @@ async function main() {
     predictions.push({
       series,
       diagnostics: analyzeTideSeries(series),
+      tideEvents: detectTideEvents(series),
     });
   }
 
   const snapshot = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAtUtc: new Date().toISOString(),
     engine: {
       name: "DR Tide Engine",
       version: packageJson.version,
       maturity: "development",
-      milestone: "M1 — série harmonique brute",
+      milestone: "M3 — courbe et événements observables",
       git,
     },
     calculation: {

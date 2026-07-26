@@ -20,7 +20,7 @@
         <div>
           <h1>DR Tide Observatory</h1>
           <p class="lede">
-            La courbe brute, sa provenance et les preuves de qualité interne.
+            La courbe brute, ses événements discrets et leurs preuves.
           </p>
         </div>
         <div id="engine-badges" class="badges" aria-label="État du moteur"></div>
@@ -36,7 +36,8 @@
           <h2 id="warning-title">Hauteurs brutes non validées</h2>
           <p>
             La référence verticale n’est pas qualifiée. Ces données ne sont ni
-            officielles ni adaptées à la navigation.
+            officielles ni adaptées à la navigation. Les horaires PM et BM sont
+            des extrema discrets au pas affiché, non des références publiées.
           </p>
         </div>
       </section>
@@ -92,6 +93,24 @@
               <desc id="chart-description"></desc>
             </svg>
           </div>
+        </section>
+
+        <section class="panel" aria-labelledby="events-title">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">Événements dérivés</p>
+              <h2 id="events-title">Pleines et basses mers discrètes</h2>
+            </div>
+            <span id="events-badge" class="badge"></span>
+          </div>
+          <p class="muted">
+            Méthode discrète sans interpolation. Un plateau est affiché comme
+            un intervalle échantillonné, jamais comme une heure centrale.
+          </p>
+          <div id="events-empty" class="inline-empty" hidden>
+            Aucun extremum qualifiable dans cette fenêtre.
+          </div>
+          <ol id="events-list" class="events-list"></ol>
         </section>
 
         <section aria-labelledby="metrics-title">
