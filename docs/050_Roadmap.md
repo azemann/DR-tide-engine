@@ -1,6 +1,6 @@
 # Roadmap
 
-## Maintenant
+## M1 — Terminé
 
 Objectif : produire et observer une série harmonique brute, traçable et
 déterministe.
@@ -13,20 +13,32 @@ déterministe.
 - [x] visualiser localement les deux séries, leur provenance et les limites ;
 - [ ] inspecter visuellement l'observatoire aux cinq largeurs de référence.
 
-## Ensuite
+## M2 — Maintenant
 
 Objectif : détecter automatiquement les extrema à partir de la série validée.
 
-- [ ] définir les contrats `TideEvent` sans modifier `TideSeries` ;
-- [ ] détecter pleines et basses mers, puis caractériser les étales ;
-- [ ] mesurer la robustesse au pas d'échantillonnage.
+- [x] définir les contrats `TideEvent` sans modifier `TideSeries` ;
+- [x] détecter maxima et minima stricts ;
+- [x] représenter les plateaux sans prétendre caractériser une étale ;
+- [x] refuser les séries invalides et les extrema non qualifiables aux bornes ;
+- [x] prouver l'ordre et l'alternance sur Ouistreham et Le Havre.
 
-## Plus tard
+## M3 — Ensuite
+
+- intégrer les événements prouvés à la petite page HTML existante ;
+- terminer l'inspection visuelle responsive et les contrastes ;
+- ne déplacer aucune logique de détection dans le navigateur.
+
+## M4 — Comparaison aux références
 
 - valider les événements contre des références ;
 - documenter et appliquer les corrections locales Côte Fleurie ;
 - produire des exports annuels ;
-- concevoir une API, puis intégrer les clients dont `skill-mar-e`.
+
+## M5 — Alexa
+
+- définir un contrat client validé ;
+- intégrer `skill-mar-e` sans logique métier.
 
 ## Non planifié
 
@@ -41,4 +53,6 @@ Objectif : détecter automatiquement les extrema à partir de la série validée
 | M1 — série brute | JSON de 288 échantillons pour les deux stations | bootstrap validé et dépendances verrouillées | tests, typecheck et check-project réussis |
 | M1.1 — observabilité | diagnostics purs et observatoire local | M1 validé | tests multi-fichiers, génération réelle et routes locales vérifiés |
 | M2 — extrema | événements ordonnés dérivés de la série | M1 validé | cas limites et erreurs temporelles testés |
-| M3 — validation | rapport de comparaison | extrema stables et références choisies | seuils et limites documentés |
+| M3 — page HTML | courbe et événements observables | M2 validé et observatoire local existant | rendu responsive et limites visibles |
+| M4 — validation | rapport de comparaison | extrema stables et références choisies | seuils et limites documentés |
+| M5 — Alexa | client vocal sans logique métier | contrat validé | tests client et attribution |

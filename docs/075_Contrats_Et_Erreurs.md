@@ -7,6 +7,7 @@
 | CT-001 | `StationRepository` | orchestration CLI et futurs clients | interfaces TypeScript 0.1 | tests de stations | additions compatibles jusqu'à décision contraire |
 | CT-002 | `TidePredictor` | orchestration CLI et futurs détecteurs | interfaces TypeScript 0.1 | tests de série | la fenêtre reste semi-ouverte |
 | CT-003 | CLI `predict` | humain ou client de diagnostic | JSON 0.1 | test déterministe | toute rupture exige ADR et version |
+| CT-004 | `detectTideEvents` | futurs validateurs et clients | interfaces TypeScript, méthode `discrete-local-extremum-v1` | tests synthétiques et réels | toute modification de plateau, borne ou temps change la version de méthode |
 
 ## Modèle d’erreur
 
@@ -28,6 +29,7 @@ Une erreur importante précise :
 | `STATION_LICENSE_REJECTED` | `commercial_use` n'est pas vrai | licence incompatible avec la politique V1 | choisir une station autorisée | identifiant et type de licence |
 | `INVALID_PREDICTION_REQUEST` | date, fenêtre ou pas invalide | requête de prédiction invalide | corriger les arguments | champ invalide |
 | `INVALID_PREDICTION_RESULT` | résultat externe incohérent ou non fini | le calculateur a produit un résultat invalide | vérifier versions et station | station et index, jamais de secret |
+| `INVALID_EVENT_SOURCE_SERIES` | série incomplète, non finie, désordonnée ou désalignée | impossible de détecter des événements dans cette série | corriger le producteur de série | station et compteurs de diagnostic |
 | `CLI_USAGE_ERROR` | arguments absents ou inconnus | utilisation invalide de la commande | consulter l'usage | aucun détail sensible |
 
 ## Versionnement

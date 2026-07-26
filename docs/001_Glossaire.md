@@ -66,6 +66,29 @@ Ce document est normatif.
 - **Source :** EF-005.
 - **Statut :** accepté.
 
+## Événement de marée discret
+
+- **Définition :** maximum ou minimum local dérivé d'une `TideSeries` complète
+  par comparaison de valeurs voisines.
+- **Ne signifie pas :** événement observé, horaire officiel, étale physique ou
+  événement validé contre une référence.
+- **Alias autorisés :** pleine mer discrète pour `high`, basse mer discrète
+  pour `low`.
+- **Représentation technique :** `TideEvent`.
+- **Source :** ADR-0008 et EF-007.
+- **Statut :** accepté.
+
+## Plateau d'extremum
+
+- **Définition :** suite d'au moins deux échantillons de même hauteur, encadrée
+  des deux côtés par des valeurs strictement inférieures pour une pleine mer ou
+  supérieures pour une basse mer.
+- **Ne signifie pas :** durée physique d'une étale.
+- **Alias autorisés :** plateau discret.
+- **Représentation technique :** variante `plateau` de `TideEventTime`.
+- **Source :** ADR-0008.
+- **Statut :** accepté.
+
 ## Instantané d'observatoire
 
 - **Définition :** agrégat local et recalculable réunissant séries,

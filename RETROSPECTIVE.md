@@ -4,7 +4,7 @@
 
 ## Jalon examiné
 
-M1.1 — diagnostics et observatoire local, 2026-07-25.
+M2 — pleines et basses mers discrètes, 2026-07-26.
 
 ## Ce qui a fonctionné
 
@@ -15,6 +15,9 @@ M1.1 — diagnostics et observatoire local, 2026-07-25.
   domaine.
 - un diagnostic pur a rendu visibles les anomalies sans modifier le contrat ;
 - l'instantané local a permis une interface utile sans API ni dépendance web.
+- les séries synthétiques ont fixé le sens des plateaux et des bornes avant
+  d'observer les données Neaps ;
+- le détecteur a pu rester une seule fonction pure du domaine.
 
 ## Ce qui nous a ralentis
 
@@ -25,6 +28,8 @@ M1.1 — diagnostics et observatoire local, 2026-07-25.
 - la découverte automatique de `node --test` incluait aussi les sources
   TypeScript ; un lanceur explicite, récursif et déterministe a été nécessaire ;
 - le sandbox interdisait l'écoute loopback sans autorisation dédiée.
+- un simple champ `datetimeUtc` aurait forcé une fausse précision pour les
+  plateaux ; un type temporel discriminé a été nécessaire.
 
 ## Hypothèses invalidées
 
@@ -34,9 +39,8 @@ M1.1 — diagnostics et observatoire local, 2026-07-25.
 
 ## Complexité inutile introduite
 
-Aucune couche anticipant les extrema, l'API ou Alexa n'a été ajoutée.
-L'observatoire reste un client statique d'un instantané et n'introduit aucun
-second chemin de calcul.
+Aucun interpolateur, score de confiance, étale, port applicatif, changement de
+CLI ou intégration HTML n'a été ajouté. M2 reste borné à la détection discrète.
 
 ## Décisions à conserver
 
@@ -46,12 +50,15 @@ second chemin de calcul.
 - hauteur explicitement brute.
 - diagnostic structurel distinct de la validation scientifique ;
 - données de démonstration générées et non committées.
+- méthode d'événements versionnée et provenance conservée ;
+- plateaux représentés par leurs bornes échantillonnées.
 
 ## Décisions à revoir
 
 - le sens vertical et l'éventuel offset de datum avant toute publication de
   hauteur ;
-- la granularité optimale pour détecter les extrema au prochain jalon.
+- la granularité et une éventuelle interpolation seulement après comparaison
+  des événements discrets en M4.
 
 ## Ce que le template doit apprendre
 
@@ -64,5 +71,6 @@ les manifestes aux preuves réelles avant `development`.
 | ID | Action | Responsable | Échéance | Preuve de clôture |
 | --- | --- | --- | --- | --- |
 | RET-001 | Conserver AUD-004 ouvert jusqu'à validation verticale. | mainteneur | jalon validation | protocole et comparaison documentés |
-| RET-002 | Évaluer la détection d'extrema sans coupler `TideSeries` au calculateur. | mainteneur | M2 | tests d'événements sur séries validées |
+| RET-002 | Évaluer la détection d'extrema sans coupler `TideSeries` au calculateur. | mainteneur | M2 | clôturé : tests synthétiques et deux stations réelles |
 | RET-003 | Produire les captures multi-largeur et mesurer les contrastes de l'observatoire. | mainteneur | avant extension de l'interface | matrice visuelle entièrement prouvée |
+| RET-004 | Comparer les horaires discrets à des références avant tout raffinement. | mainteneur | M4 | rapport d'erreurs horaires et méthode décidée |

@@ -12,6 +12,7 @@ Une exigence décrit un résultat vérifiable, pas une solution technique préma
 | EF-004 | Produire un JSON déterministe conservant station, source et licence. | Mission initiale | indispensable | Deux exécutions avec la même entrée produisent exactement la même chaîne JSON. | acceptée |
 | EF-005 | Mesurer la qualité structurelle d'une série sans la modifier ni prétendre valider sa justesse scientifique. | Besoin d'observabilité | indispensable | Des tests synthétiques couvrent série saine, trous, doublons, date invalide, valeur non finie et immutabilité. | acceptée |
 | EF-006 | Visualiser localement la courbe, ses diagnostics, sa provenance et l'état du projet sans logique métier dans le navigateur. | Besoin d'observabilité | utile au développement | Un instantané réel des deux stations est généré et servi par des routes loopback explicites. | acceptée |
+| EF-007 | Détecter les maxima et minima locaux d'une série saine sans modifier la série ni dépendre du calculateur. | Jalon M2 | indispensable | Extrema stricts, plateaux, monotonie et proximité des bornes sont testés sur séries synthétiques ; les deux stations réelles produisent des événements ordonnés et alternés. | acceptée |
 
 ## Qualités attendues
 
@@ -35,9 +36,11 @@ visuelle sont actives ; l'exploitation publique reste différée.
 | EC-002 | Aucune station CC BY-NC dans le chemin publiable. | Politique de licence V1 | contrôle avant toute prédiction | à chaque changement de source |
 | EC-003 | Résultat non destiné à la navigation. | Limites des données et du calcul | avertissement documentaire et aucune revendication officielle | avant toute release |
 | EC-004 | Aucune fausse précision ou datum non validé. | Qualité scientifique | la hauteur reste explicitement brute | jalon de validation des hauteurs |
+| EC-005 | Aucune interpolation temporelle dans M2. | Ordre de développement | un événement strict garde l'heure d'un échantillon et un plateau garde ses deux échantillons bornes | avant un futur raffinement |
 
 ## Traçabilité
 
 EF-001 à EF-004 sont reliées à UC-001. EF-005 est prouvée par les tests de
 diagnostic. EF-006 est bornée par l'ADR-0007 et la recette de validation
-visuelle.
+visuelle. EF-007 est reliée à UC-003 et aux tests synthétiques et réels du
+détecteur.

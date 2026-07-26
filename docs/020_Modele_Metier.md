@@ -23,12 +23,20 @@
 - `TideSeriesDiagnostics` : mesure immuable de la structure d'une série
   existante : effectif attendu, trous, doublons, ordre, régularité, valeurs non
   finies, minimum, maximum et amplitude bruts.
+- `TideEventType` : `high` ou `low` ;
+- `TideEventTime` : instant d'un échantillon strict ou bornes échantillonnées
+  d'un plateau ;
+- `TideEvent` : extremum brut avec provenance, licence, méthode et
+  qualification ;
+- `TideEventsResult` : événements ordonnés et métadonnées de la série source.
 
 ## Relations
 
 Une station possède une source, une licence et au moins un constituant. Une
 requête porte exactement une station. Une série répond à une requête et contient
 zéro ou plusieurs échantillons ; la tranche de 24 heures en contient 288.
+Un résultat d'événements dérive d'une seule série et chaque événement reprend sa
+station, sa source et sa licence.
 
 ## Invariants
 
@@ -38,6 +46,10 @@ zéro ou plusieurs échantillons ; la tranche de 24 heures en contient 288.
 - les échantillons appartiennent à `[début, fin[` et sont strictement ordonnés ;
 - toutes les amplitudes, phases et hauteurs sont des nombres finis ;
 - la source et la licence de la série sont celles de la station calculée.
+- une série source invalide n'est ni triée ni corrigée par le détecteur ;
+- les deux bornes de la série ne sont jamais qualifiées comme extrema ;
+- un plateau est qualifié uniquement lorsqu'il possède deux voisins externes ;
+- l'ordre des événements suit l'ordre des échantillons, sans interpolation.
 
 ## Commandes ou actions métier
 
@@ -46,14 +58,17 @@ zéro ou plusieurs échantillons ; la tranche de 24 heures en contient 288.
 | trouver une station | `StationId` | identifiant valide | `HarmonicStation` ou absence | station inconnue, type ou données invalides, licence refusée |
 | prédire une série | `PredictionRequest` | station et fenêtre valides | `TideSeries` | requête invalide, résultat externe non fini ou incohérent |
 | diagnostiquer une série | `TideSeries` | fenêtre divisible et pas positif | `TideSeriesDiagnostics` | métadonnées de fenêtre invalides |
+| détecter les événements | `TideSeries` | diagnostic structurel conforme | `TideEventsResult` | série source invalide |
 
 ## Événements significatifs
 
-La première tranche ne produit aucun événement métier de marée. Les extrema
-seront introduits dans un jalon distinct après validation de la série.
+M2 produit des événements discrets `high` et `low`. Ils sont dérivés du calcul,
+pas observés ni validés extérieurement. Une étale physique n'est pas déduite
+d'un plateau de cinq minutes.
 
 ## États et transitions
 
 Les objets de la première tranche sont immuables. Il n'existe pas de cycle
 d'état persistant : une requête est soit refusée, soit transformée en série.
 Le diagnostic lit la série sans la corriger ni la remplacer.
+Le détecteur suit la même règle et produit un nouvel objet immuable.

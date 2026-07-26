@@ -6,6 +6,8 @@
 - produire une série incomplète, non ordonnée ou contenant une valeur non finie ;
 - masquer une évolution de la base ou du calculateur par une plage de versions ;
 - présenter une hauteur brute comme une donnée officielle.
+- inventer une heure centrale pour un plateau ou qualifier une borne incomplète ;
+- laisser le détecteur corriger ou muter silencieusement sa série source.
 
 ## Stratégie
 
@@ -16,6 +18,8 @@
 | Intégration | stations et calculateur Neaps verrouillés | `npm test` | chaque changement de données ou dépendance |
 | Parcours | commande Ouistreham sur une date fixe | `npm run predict` et validation JSON | chaque jalon |
 | Diagnostic | trous, doublons, ordre, pas, bornes et valeurs non finies | séries synthétiques avec `node:test` | chaque changement du diagnostic |
+| Événements | extrema stricts, plateaux, monotonie, bornes, provenance et immutabilité | séries synthétiques avec `node:test` | chaque changement du détecteur |
+| Événements réels | ordre, alternance et présence de high/low sur les deux stations | calcul Neaps verrouillé, sans comparaison externe | chaque changement M2 |
 | Observatoire | instantané des deux stations et routes HTTP autorisées | `npm run observatory:data`, serveur loopback et recette | chaque changement d'interface |
 | Manuel | sens de la hauteur et attribution | revue documentaire | avant release |
 | Visuel | interface locale responsive et accessible | matrice de `docs/065_Validation_Visuelle.md` | chaque changement d'interface |

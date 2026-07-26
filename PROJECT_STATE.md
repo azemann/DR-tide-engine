@@ -2,19 +2,19 @@
 
 Ce document est la source de vérité du **présent opérationnel**. Il décrit ce qui existe réellement, non ce qui est seulement prévu ou documenté.
 
-- **Date :** 2026-07-25
+- **Date :** 2026-07-26
 - **Origine d’adoption :** nouveau projet
 - **Niveau validé :** development
-- **Phase :** première tranche moteur observable
+- **Phase :** événements discrets dérivés
 - **Version :** 0.1.0
 - **Branche :** `main`
-- **Dernier jalon validé :** M1.1 — diagnostics et observatoire local
+- **Dernier jalon validé :** M2 — pleines et basses mers discrètes
 - **Responsable de mise à jour :** mainteneur de DR Tide Engine
 - **Portées actives :** développement manuel
 
 ## Fonctionne réellement
 
-- Le profil logiciel et les douze rôles requis au niveau `development` sont
+- Le profil logiciel et les seize rôles requis au niveau `development` sont
   validés par le Project Template.
 - Les dépendances exactes sont verrouillées et installables avec `npm ci`.
 - Ouistreham et Le Havre sont chargées derrière `StationRepository` avec leur
@@ -28,6 +28,12 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
 - Le lanceur de tests découvre tous les fichiers `dist/tests/**/*.test.js`.
 - L'observatoire local génère et affiche les deux séries, leur provenance, leurs
   diagnostics et les points d'audit ouverts, sans logique de marée côté web.
+- `detectTideEvents` dérive sans mutation les maxima `high` et minima `low`
+  stricts ou en plateau d'une série structurellement conforme.
+- Les plateaux conservent leurs deux instants échantillonnés ; aucune heure
+  centrale, interpolation ou étale physique n'est inventée.
+- Sur la journée du 2026-07-25, Ouistreham et Le Havre produisent chacune quatre
+  événements stricts, ordonnés et alternés.
 - Les tests, le typecheck, le build, la génération de l'instantané et les routes
   HTTP locales réussissent avec Node.js 24.
 
@@ -42,10 +48,13 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
   inspection visuelle aux cinq largeurs et la mesure de contraste restent à
   réaliser.
 - La borne minimale Node.js 20 n'est pas revalidée dans cette tranche.
+- Les horaires d'événements sont des candidats au pas de cinq minutes, sans
+  validation contre une référence officielle.
 
 ## Ne fonctionne pas
 
-- Aucune détection de pleine mer, basse mer ou étale n'existe.
+- Aucun raffinement temporel, mesure de confiance ou détecteur d'étale physique
+  n'existe.
 - Les corrections locales, la validation externe, le générateur annuel, l'API,
   Alexa et les autres clients ne sont pas implémentés.
 
@@ -57,11 +66,14 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
 - Les invariants métier ont été ajoutés aux règles des agents.
 - Les diagnostics purs, le lanceur de tests multi-fichiers et l'observatoire
   local ont été ajoutés ; ADR-0007 en fixe la frontière.
+- Les contrats `TideEvent`, le détecteur discret et ses tests synthétiques et
+  réels ont été ajoutés ; ADR-0008 fixe plateaux, bornes et précision.
 
 ## Décisions et blocages actuels
 
 - ADR-0006 impose deux adaptateurs distincts pour la base et le calculateur.
 - ADR-0007 interdit toute logique métier dans l'observatoire.
+- ADR-0008 impose une méthode discrète sans interpolation ni fausse précision.
 - AUD-004 reste ouvert : la référence verticale n'est pas qualifiée pour
   publication.
 - AUD-005 reste ouvert : aucune licence de code n'autorise encore une release
@@ -70,8 +82,8 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
 
 ## Prochaine tranche verticale
 
-Détecter automatiquement les pleines et basses mers à partir de `TideSeries`
-validée, sans modifier le contrat brut ni introduire de correction locale.
+Intégrer les événements M2 à la petite page HTML existante, sans déplacer le
+détecteur dans le navigateur, puis achever la preuve responsive et de contraste.
 
 ## Commande de reprise
 
@@ -81,12 +93,15 @@ npm ci && npm test && npm run typecheck && npm run observatory:data -- --date 20
 
 ## Validation attendue
 
-Définir et tester le contrat des événements, les changements de pente, les
-plateaux et les extrema proches des bornes avant toute comparaison externe.
+Afficher distinctement extrema stricts et plateaux, conserver la qualification
+non officielle et vérifier les cinq largeurs avant toute comparaison externe.
 
 ## Preuves disponibles
 
 - tests : tests Node multi-fichiers réussis le 2026-07-25 avec Node.js 24
+- événements : tests synthétiques de maxima, minima, plateaux, monotonie,
+  bornes, refus, provenance et immutabilité ; intégration des deux stations
+  réussie le 2026-07-26
 - démonstration : instantané réel des deux stations et routes HTTP vérifiés
 - captures : inspection multi-largeur non encore produite
 - audit : AUD-001 à AUD-003 clos ; AUD-004 et AUD-005 ouverts

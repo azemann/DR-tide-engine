@@ -47,8 +47,9 @@ src/
 └── cli/             arguments et sérialisation, sans logique de marée
 ```
 
-La cible à plus long terme comprend extrema, corrections, validation et exports,
-mais ces capacités ne sont pas encore implémentées.
+Le domaine sait désormais dériver des pleines et basses mers discrètes d'une
+`TideSeries`. Les corrections, la validation externe et les exports ne sont pas
+encore implémentés.
 
 ## Installation et validation
 
@@ -98,8 +99,9 @@ Aucune station ou hauteur ne passe au statut `validated` avant :
 4. mesure des erreurs moyenne et maximale ;
 5. attribution claire des sources.
 
-Les hauteurs officielles, événements, tendances, corrections et coefficients
-viendront après leurs jalons de validation respectifs.
+Les événements actuels sont des extrema discrets non validés extérieurement.
+Les hauteurs officielles, tendances, corrections et coefficients viendront
+après leurs jalons de validation respectifs.
 
 ## Licence et attribution
 

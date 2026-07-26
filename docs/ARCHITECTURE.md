@@ -23,6 +23,8 @@ adaptateur du calculateur
 série temporelle brute
         ↓
 diagnostic structurel pur
+        ↓
+détection discrète des événements
 ```
 
 ## Première tranche
@@ -35,6 +37,7 @@ diagnostic structurel pur
 | `adapters/neaps/tide-predictor` | traduire la requête et le résultat du calculateur | `domain`, `@neaps/tide-predictor` |
 | `cli/predict` | valider les arguments, assembler le cas d'usage et sérialiser | `application`, `domain` et adaptateurs |
 | `domain/tide-series-diagnostics` | mesurer la qualité interne sans mutation ni validation scientifique | `domain` |
+| `domain/tide-events` | valider la série et dériver les extrema discrets | `domain` |
 | `scripts/generate-observatory-data` | produire un instantané local depuis les contrats existants | sortie compilée, documents canoniques et Git |
 | `tools/observatory` | visualiser l'instantané sans calcul métier | JSON généré et tokens de design |
 
@@ -81,6 +84,18 @@ TideSeries + TideSeriesDiagnostics + sources de vérité du projet
 Le navigateur ne dépend pas de Neaps et ne reçoit aucun port du moteur. Il ne
 peut produire ni hauteur ni événement. ADR-0007 formalise cette frontière.
 
+## Détection des événements
+
+`detectTideEvents` est une fonction pure du domaine et ne possède aucun import
+Neaps, CLI ou interface. Elle refuse une série dont le diagnostic structurel
+n'est pas conforme, puis compare des groupes consécutifs de hauteur égale à
+leurs voisins.
+
+Un extremum strict conserve l'heure exacte de l'échantillon. Un plateau conserve
+la première et la dernière heure échantillonnées ; aucune heure centrale n'est
+inventée. Les groupes touchant la fenêtre ne sont pas qualifiés, car un voisin
+extérieur manque. ADR-0008 versionne cette méthode.
+
 ## Contrat temporel
 
 Une journée civile demandée par la CLI devient la fenêtre UTC semi-ouverte
@@ -96,6 +111,7 @@ elle contient exactement 288 instants. `endUtc` est la borne exclusive.
 | calcul harmonique | adaptateur `TidePredictor` et version verrouillée du calculateur |
 | sérialisation CLI | sérialiseur explicite de la commande `predict` |
 | diagnostic structurel | `domain/tide-series-diagnostics` |
+| événements discrets | `domain/tide-events` et méthode `discrete-local-extremum-v1` |
 | avancement affiché | `docs/050_Roadmap.md` et `docs/095_Registre_Audit.md` lus à la génération |
 | présentation locale | instantané généré, jamais une nouvelle source de vérité |
 | commandes vérifiées | `project.yaml` |
@@ -103,7 +119,7 @@ elle contient exactement 288 instants. `endUtc` est la borne exclusive.
 
 ## Architecture cible non implémentée
 
-- détection de pleine mer, basse mer et étale ;
+- raffinement temporel et caractérisation physique des étales ;
 - validation par rapport à des références externes ;
 - corrections locales Côte Fleurie ;
 - exports annuels, API et clients.
@@ -125,3 +141,4 @@ elle contient exactement 288 instants. `endUtc` est la borne exclusive.
 - ajout prématuré de concepts d'événements ou de communes dans le calcul brut.
 - confusion entre diagnostic structurel et validation scientifique ;
 - dérive de l'observatoire vers une seconde implémentation métier.
+- assimilation d'un extremum discret à un horaire officiel.

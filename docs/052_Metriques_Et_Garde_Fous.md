@@ -15,6 +15,7 @@
 | régularité | chaque écart correspond au pas | booléen, lacunes et désalignements | corriger le producteur |
 | finitude | chaque hauteur est numérique et finie | compteur | refuser le chemin publiable |
 | bornes brutes | minimum, maximum et amplitude de la série | valeurs finies | observer la forme sans qualifier le niveau vertical |
+| événements discrets | nombre, type, ordre et qualification | `TideEventsResult` | vérifier la cohérence algorithmique, pas l'exactitude externe |
 
 ## Garde-fous
 
@@ -24,6 +25,7 @@
 | qualité numérique | hauteur non finie | zéro | erreur ou état dégradé explicite |
 | provenance | source ou licence absente du résultat | zéro | ne pas publier |
 | qualification | hauteur présentée comme officielle ou navigable | zéro | corriger le client et conserver AUD-004 ouvert |
+| fausse précision temporelle | heure interpolée ou centre arbitraire d'un plateau | zéro dans M2 | conserver l'échantillon strict ou l'intervalle du plateau |
 
 ## Règles
 

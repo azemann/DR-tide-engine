@@ -66,3 +66,31 @@ UTC, pas temporel, hauteur brute et provenance.
 
 Une vue locale remplaçable affiche l'entrée réellement calculée et l'état
 documenté. Aucun résultat métier n'est produit par le navigateur.
+
+## UC-003 — Détecter les pleines et basses mers discrètes
+
+- **Acteur :** moteur ou client externe
+- **Intention :** dériver des événements structurés d'une série déjà calculée
+- **Préconditions :** série complète, finie, ordonnée et alignée sur son pas
+- **Déclencheur :** appel de `detectTideEvents`
+
+### Parcours nominal
+
+1. Le détecteur vérifie la structure de la série sans la corriger.
+2. Il regroupe les échantillons consécutifs de hauteur égale.
+3. Il compare chaque point ou groupe à ses voisins directs.
+4. Il produit les maxima `high` et minima `low` dans l'ordre UTC.
+5. Chaque événement conserve station, source, licence et méthode.
+
+### Variantes et erreurs
+
+- série monotone : résultat vide ;
+- extremum strict : heure de l'échantillon conservée ;
+- plateau encadré : première et dernière heures échantillonnées conservées ;
+- extremum ou plateau touchant une borne : non qualifié ;
+- série invalide : `INVALID_EVENT_SOURCE_SERIES`.
+
+### Résultat
+
+Un `TideEventsResult` déterministe contenant des événements discrets non
+interpolés et non validés contre une référence.
