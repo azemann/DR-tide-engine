@@ -5,6 +5,7 @@ export type TideEngineErrorCode =
   | "STATION_LICENSE_REJECTED"
   | "INVALID_PREDICTION_REQUEST"
   | "INVALID_PREDICTION_RESULT"
+  | "INVALID_EVENT_SOURCE_SERIES"
   | "CLI_USAGE_ERROR";
 
 export class TideEngineError extends Error {
@@ -56,6 +57,15 @@ export class InvalidPredictionRequestError extends TideEngineError {
 export class InvalidPredictionResultError extends TideEngineError {
   public constructor(reason: string) {
     super("INVALID_PREDICTION_RESULT", `Invalid prediction result: ${reason}`);
+  }
+}
+
+export class InvalidEventSourceSeriesError extends TideEngineError {
+  public constructor(reason: string) {
+    super(
+      "INVALID_EVENT_SOURCE_SERIES",
+      `Cannot detect tide events from this series: ${reason}`,
+    );
   }
 }
 
