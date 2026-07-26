@@ -4,7 +4,7 @@
 
 ## Jalon examiné
 
-M2 — pleines et basses mers discrètes, 2026-07-26.
+M3 — petite page HTML des événements, 2026-07-26.
 
 ## Ce qui a fonctionné
 
@@ -18,6 +18,9 @@ M2 — pleines et basses mers discrètes, 2026-07-26.
 - les séries synthétiques ont fixé le sens des plateaux et des bornes avant
   d'observer les données Neaps ;
 - le détecteur a pu rester une seule fonction pure du domaine.
+- l'instantané v2 a transporté le contrat M2 sans transformation métier ;
+- WebDriver BiDi a permis d'inspecter le contenu réellement chargé plutôt que
+  le seul état initial.
 
 ## Ce qui nous a ralentis
 
@@ -30,6 +33,8 @@ M2 — pleines et basses mers discrètes, 2026-07-26.
 - le sandbox interdisait l'écoute loopback sans autorisation dédiée.
 - un simple champ `datetimeUtc` aurait forcé une fausse précision pour les
   plateaux ; un type temporel discriminé a été nécessaire.
+- les captures Firefox immédiates sur `load` précédaient le chargement asynchrone
+  du JSON ; une session contrôlée et une attente explicite ont été nécessaires.
 
 ## Hypothèses invalidées
 
@@ -39,8 +44,8 @@ M2 — pleines et basses mers discrètes, 2026-07-26.
 
 ## Complexité inutile introduite
 
-Aucun interpolateur, score de confiance, étale, port applicatif, changement de
-CLI ou intégration HTML n'a été ajouté. M2 reste borné à la détection discrète.
+Aucun calcul, interpolateur ou adaptateur Neaps n'a été ajouté au navigateur.
+La nouvelle page ne fait que projeter un contrat déjà calculé.
 
 ## Décisions à conserver
 
@@ -52,6 +57,8 @@ CLI ou intégration HTML n'a été ajouté. M2 reste borné à la détection dis
 - données de démonstration générées et non committées.
 - méthode d'événements versionnée et provenance conservée ;
 - plateaux représentés par leurs bornes échantillonnées.
+- marqueurs toujours complétés par PM/BM et une liste textuelle ;
+- contrôle de l'instantané de présentation intégré aux tests.
 
 ## Décisions à revoir
 
@@ -72,5 +79,5 @@ les manifestes aux preuves réelles avant `development`.
 | --- | --- | --- | --- | --- |
 | RET-001 | Conserver AUD-004 ouvert jusqu'à validation verticale. | mainteneur | jalon validation | protocole et comparaison documentés |
 | RET-002 | Évaluer la détection d'extrema sans coupler `TideSeries` au calculateur. | mainteneur | M2 | clôturé : tests synthétiques et deux stations réelles |
-| RET-003 | Produire les captures multi-largeur et mesurer les contrastes de l'observatoire. | mainteneur | avant extension de l'interface | matrice visuelle entièrement prouvée |
+| RET-003 | Produire les captures multi-largeur et mesurer les contrastes de l'observatoire. | mainteneur | M3 | clôturé : cinq largeurs inspectées et contrastes mesurés |
 | RET-004 | Comparer les horaires discrets à des références avant tout raffinement. | mainteneur | M4 | rapport d'erreurs horaires et méthode décidée |

@@ -66,6 +66,10 @@ L'observatoire n'utilise pas de photographie ni d'illustration décorative. La
 visualisation SVG de la série est l'image principale ; elle est accompagnée
 d'une description textuelle et de métriques.
 
+Les événements utilisent simultanément un libellé `PM` ou `BM`, une position et
+une couleur sémantique. Le cyan distingue une pleine mer discrète et l'orange
+une basse mer discrète ; la couleur n'est jamais le seul porteur de sens.
+
 Les visuels générés ou importés doivent être lisibles à leur taille réelle, sans texte intégré lorsque celui-ci doit rester accessible ou traduisible.
 
 ## Mouvement

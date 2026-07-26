@@ -5,10 +5,10 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
 - **Date :** 2026-07-26
 - **Origine d’adoption :** nouveau projet
 - **Niveau validé :** development
-- **Phase :** événements discrets dérivés
+- **Phase :** événements discrets observables
 - **Version :** 0.1.0
 - **Branche :** `main`
-- **Dernier jalon validé :** M2 — pleines et basses mers discrètes
+- **Dernier jalon validé :** M3 — petite page HTML des événements
 - **Responsable de mise à jour :** mainteneur de DR Tide Engine
 - **Portées actives :** développement manuel
 
@@ -34,6 +34,12 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
   centrale, interpolation ou étale physique n'est inventée.
 - Sur la journée du 2026-07-25, Ouistreham et Le Havre produisent chacune quatre
   événements stricts, ordonnés et alternés.
+- L'instantané d'observatoire v2 conserve les événements M2 et son contrôle est
+  intégré à `npm test`.
+- La page affiche marqueurs PM/BM, heures UTC, valeurs brutes, qualifications et
+  méthode ; le changement de station met à jour l'ensemble de la vue.
+- Le rendu chargé est inspecté à 360, 390, 768, 1024 et 1280 px ; les contrastes
+  textuels et le focus respectent les seuils documentés.
 - Les tests, le typecheck, le build, la génération de l'instantané et les routes
   HTTP locales réussissent avec Node.js 24.
 
@@ -44,9 +50,6 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
   navigables.
 - L'inventaire géographique historique reste un outil de diagnostic ; il ne
   sélectionne pas automatiquement une station publiable.
-- L'observatoire est implémenté techniquement et sa recette est documentée. Son
-  inspection visuelle aux cinq largeurs et la mesure de contraste restent à
-  réaliser.
 - La borne minimale Node.js 20 n'est pas revalidée dans cette tranche.
 - Les horaires d'événements sont des candidats au pas de cinq minutes, sans
   validation contre une référence officielle.
@@ -68,12 +71,15 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
   local ont été ajoutés ; ADR-0007 en fixe la frontière.
 - Les contrats `TideEvent`, le détecteur discret et ses tests synthétiques et
   réels ont été ajoutés ; ADR-0008 fixe plateaux, bornes et précision.
+- L'observatoire affiche les événements via l'instantané v2 ; ADR-0009 interdit
+  tout recalcul métier dans la page.
 
 ## Décisions et blocages actuels
 
 - ADR-0006 impose deux adaptateurs distincts pour la base et le calculateur.
 - ADR-0007 interdit toute logique métier dans l'observatoire.
 - ADR-0008 impose une méthode discrète sans interpolation ni fausse précision.
+- ADR-0009 impose la projection fidèle des événements M2 dans la page.
 - AUD-004 reste ouvert : la référence verticale n'est pas qualifiée pour
   publication.
 - AUD-005 reste ouvert : aucune licence de code n'autorise encore une release
@@ -82,8 +88,8 @@ Ce document est la source de vérité du **présent opérationnel**. Il décrit 
 
 ## Prochaine tranche verticale
 
-Intégrer les événements M2 à la petite page HTML existante, sans déplacer le
-détecteur dans le navigateur, puis achever la preuve responsive et de contraste.
+Comparer les horaires discrets M2 à des références choisies et licites, avec un
+protocole d'appariement et des mesures d'erreur explicites.
 
 ## Commande de reprise
 
@@ -93,15 +99,17 @@ npm ci && npm test && npm run typecheck && npm run observatory:data -- --date 20
 
 ## Validation attendue
 
-Afficher distinctement extrema stricts et plateaux, conserver la qualification
-non officielle et vérifier les cinq largeurs avant toute comparaison externe.
+Définir d'abord la source de référence, son droit d'usage, les règles
+d'appariement, les seuils et les limites avant tout raffinement temporel.
 
 ## Preuves disponibles
 
-- tests : tests Node multi-fichiers réussis le 2026-07-25 avec Node.js 24
+- tests : tests Node multi-fichiers et contrat d'instantané v2 réussis le
+  2026-07-26 avec Node.js 24
 - événements : tests synthétiques de maxima, minima, plateaux, monotonie,
   bornes, refus, provenance et immutabilité ; intégration des deux stations
   réussie le 2026-07-26
 - démonstration : instantané réel des deux stations et routes HTTP vérifiés
-- captures : inspection multi-largeur non encore produite
+- interface M3 : captures temporaires inspectées aux cinq largeurs, changement
+  vers Le Havre vérifié et contrastes mesurés le 2026-07-26
 - audit : AUD-001 à AUD-003 clos ; AUD-004 et AUD-005 ouverts

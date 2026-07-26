@@ -13,6 +13,7 @@ Une exigence décrit un résultat vérifiable, pas une solution technique préma
 | EF-005 | Mesurer la qualité structurelle d'une série sans la modifier ni prétendre valider sa justesse scientifique. | Besoin d'observabilité | indispensable | Des tests synthétiques couvrent série saine, trous, doublons, date invalide, valeur non finie et immutabilité. | acceptée |
 | EF-006 | Visualiser localement la courbe, ses diagnostics, sa provenance et l'état du projet sans logique métier dans le navigateur. | Besoin d'observabilité | utile au développement | Un instantané réel des deux stations est généré et servi par des routes loopback explicites. | acceptée |
 | EF-007 | Détecter les maxima et minima locaux d'une série saine sans modifier la série ni dépendre du calculateur. | Jalon M2 | indispensable | Extrema stricts, plateaux, monotonie et proximité des bornes sont testés sur séries synthétiques ; les deux stations réelles produisent des événements ordonnés et alternés. | acceptée |
+| EF-008 | Visualiser les événements M2 sans les recalculer ni les présenter comme officiels. | Jalon M3 | utile au développement | L'instantané v2 conserve `TideEventsResult` ; la courbe et la liste distinguent PM, BM, extrema stricts et plateaux sur les deux stations. | acceptée |
 
 ## Qualités attendues
 
@@ -43,4 +44,5 @@ visuelle sont actives ; l'exploitation publique reste différée.
 EF-001 à EF-004 sont reliées à UC-001. EF-005 est prouvée par les tests de
 diagnostic. EF-006 est bornée par l'ADR-0007 et la recette de validation
 visuelle. EF-007 est reliée à UC-003 et aux tests synthétiques et réels du
-détecteur.
+détecteur. EF-008 est prouvée par le contrôle d'instantané et la matrice visuelle
+M3.

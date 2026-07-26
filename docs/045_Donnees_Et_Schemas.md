@@ -29,7 +29,7 @@ Documenter ici les concepts techniquement proches mais non interchangeables, par
 | `TideSeries` | JSON / types TypeScript | contrat 0.1.0 | stricte dans la tranche M1 | sérialisation déterministe | `src/domain/prediction.ts` |
 | `TideSeriesDiagnostics` | objet TypeScript inclus dans l'instantané | contrat 0.1.0 | stricte | génération locale seulement | `src/domain/tide-series-diagnostics.ts` |
 | `TideEventsResult` | objet TypeScript | méthode `discrete-local-extremum-v1` | stricte dans M2 | génération pure seulement | `src/domain/tide-events.ts` |
-| instantané d'observatoire | JSON | `schemaVersion: 1` | version exacte | remplacement atomique non garanti, usage local | `data/generated/observatory-data.json` |
+| instantané d'observatoire | JSON | `schemaVersion: 2` | version exacte | remplacement atomique non garanti, usage local | `data/generated/observatory-data.json` |
 
 ## Import, export et portabilité
 
@@ -44,3 +44,6 @@ Il n'existe aucune donnée persistante à migrer. Un changement de
 `schemaVersion` de l'instantané doit maintenir temporairement la lecture ou
 modifier ensemble générateur et page ; le retour arrière consiste à régénérer
 avec la version précédente.
+
+La version 2 ajoute `tideEvents` à chaque prédiction. Elle ne modifie ni
+`TideSeries`, ni le JSON de la CLI `predict`.

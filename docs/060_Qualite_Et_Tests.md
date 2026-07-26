@@ -21,6 +21,7 @@
 | Événements | extrema stricts, plateaux, monotonie, bornes, provenance et immutabilité | séries synthétiques avec `node:test` | chaque changement du détecteur |
 | Événements réels | ordre, alternance et présence de high/low sur les deux stations | calcul Neaps verrouillé, sans comparaison externe | chaque changement M2 |
 | Observatoire | instantané des deux stations et routes HTTP autorisées | `npm run observatory:data`, serveur loopback et recette | chaque changement d'interface |
+| Contrat M3 | événements ordonnés, dans la fenêtre, traçables et des deux types | `npm run observatory:check`, inclus dans `npm test` | chaque changement d'instantané |
 | Manuel | sens de la hauteur et attribution | revue documentaire | avant release |
 | Visuel | interface locale responsive et accessible | matrice de `docs/065_Validation_Visuelle.md` | chaque changement d'interface |
 

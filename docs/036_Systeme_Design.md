@@ -21,6 +21,8 @@ La première interface n'utilise que les composants nécessaires :
 - `Badge` : état court toujours complété par un texte ou un détail ;
 - `MetricCard` : libellé et valeur comparables ;
 - `SeriesChart` : SVG accessible, axe UTC et description textuelle ;
+- `EventMarker` : cercle libellé PM/BM ou segment de plateau, avec titre SVG ;
+- `EventCard` : type, temps UTC, valeur brute, qualification et méthode ;
 - `LoadingState`, `EmptyState`, `ErrorState` : états structurels ;
 - `AuditList` et `ProgressList` : preuves issues des documents canoniques.
 
@@ -56,3 +58,7 @@ Chaque composant partagé précise : intention, anatomie, variantes, états, com
 Le point de rupture principal recompose les panneaux en une colonne. La courbe
 peut défiler horizontalement sur petit écran afin de préserver ses axes sans
 créer de débordement de page.
+
+Le groupe d'événements utilise deux colonnes au-dessus de 768 px et une colonne
+en dessous. Les marqueurs restent associés à une liste textuelle : le graphique
+n'est jamais l'unique accès aux horaires.

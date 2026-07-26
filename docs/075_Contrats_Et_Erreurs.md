@@ -8,6 +8,7 @@
 | CT-002 | `TidePredictor` | orchestration CLI et futurs détecteurs | interfaces TypeScript 0.1 | tests de série | la fenêtre reste semi-ouverte |
 | CT-003 | CLI `predict` | humain ou client de diagnostic | JSON 0.1 | test déterministe | toute rupture exige ADR et version |
 | CT-004 | `detectTideEvents` | futurs validateurs et clients | interfaces TypeScript, méthode `discrete-local-extremum-v1` | tests synthétiques et réels | toute modification de plateau, borne ou temps change la version de méthode |
+| CT-005 | générateur d'observatoire | page HTML locale | JSON `schemaVersion: 2` | `npm run observatory:check` | générateur et page évoluent ensemble ; le fichier reste recalculable |
 
 ## Modèle d’erreur
 

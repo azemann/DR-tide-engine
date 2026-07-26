@@ -89,6 +89,18 @@ Résultat local :
 data/generated/inventory-results.json
 ```
 
+## Observatoire local
+
+Afficher la courbe, les événements M2, leur qualification, la provenance et les
+limites connues :
+
+```bash
+npm run observatory -- --date 2026-07-25
+```
+
+Puis ouvrir `http://127.0.0.1:4173`. La page consomme un instantané recalculable
+et ne contient aucun calcul de marée.
+
 ## Règle de publication
 
 Aucune station ou hauteur ne passe au statut `validated` avant :

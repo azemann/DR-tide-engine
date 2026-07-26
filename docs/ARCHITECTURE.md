@@ -83,6 +83,8 @@ TideSeries + TideSeriesDiagnostics + sources de vérité du projet
 
 Le navigateur ne dépend pas de Neaps et ne reçoit aucun port du moteur. Il ne
 peut produire ni hauteur ni événement. ADR-0007 formalise cette frontière.
+Depuis M3, il visualise les événements déjà produits par le domaine dans
+l'instantané v2 ; il ne réimplémente aucune comparaison d'extrema.
 
 ## Détection des événements
 
@@ -142,3 +144,14 @@ elle contient exactement 288 instants. `endUtc` est la borne exclusive.
 - confusion entre diagnostic structurel et validation scientifique ;
 - dérive de l'observatoire vers une seconde implémentation métier.
 - assimilation d'un extremum discret à un horaire officiel.
+
+## Présentation M3
+
+Le générateur ajoute le `TideEventsResult` intact à chaque prédiction de
+l'instantané `schemaVersion: 2`. Le graphique utilise les temps et hauteurs
+fournis pour positionner des marqueurs ; la liste fournit le même contrat sous
+forme textuelle. Le changement de station remplace ensemble courbe, événements,
+diagnostics et provenance.
+
+ADR-0009 interdit à la page de recalculer un extremum, choisir le centre d'un
+plateau ou requalifier un événement.

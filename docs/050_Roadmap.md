@@ -11,9 +11,9 @@ déterministe.
 - [x] exposer la preuve par une CLI JSON et des tests.
 - [x] diagnostiquer la structure d'une série sans la muter ;
 - [x] visualiser localement les deux séries, leur provenance et les limites ;
-- [ ] inspecter visuellement l'observatoire aux cinq largeurs de référence.
+- [x] inspecter visuellement l'observatoire aux cinq largeurs de référence.
 
-## M2 — Maintenant
+## M2 — Terminé
 
 Objectif : détecter automatiquement les extrema à partir de la série validée.
 
@@ -23,13 +23,16 @@ Objectif : détecter automatiquement les extrema à partir de la série validée
 - [x] refuser les séries invalides et les extrema non qualifiables aux bornes ;
 - [x] prouver l'ordre et l'alternance sur Ouistreham et Le Havre.
 
-## M3 — Ensuite
+## M3 — Terminé
 
-- intégrer les événements prouvés à la petite page HTML existante ;
-- terminer l'inspection visuelle responsive et les contrastes ;
-- ne déplacer aucune logique de détection dans le navigateur.
+- [x] intégrer les événements prouvés à la petite page HTML existante ;
+- [x] distinguer PM, BM, extrema stricts et plateaux dans la courbe et la liste ;
+- [x] vérifier le changement Ouistreham / Le Havre ;
+- [x] inspecter 360, 390, 768, 1024 et 1280 px ;
+- [x] mesurer les contrastes des rôles textuels et du focus ;
+- [x] ne déplacer aucune logique de détection dans le navigateur.
 
-## M4 — Comparaison aux références
+## M4 — Maintenant : comparaison aux références
 
 - valider les événements contre des références ;
 - documenter et appliquer les corrections locales Côte Fleurie ;

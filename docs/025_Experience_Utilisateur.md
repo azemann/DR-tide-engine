@@ -29,6 +29,7 @@ donnée.
 | --- | --- | --- | --- |
 | En-tête | quelle version et quel jalon sont observés ? | version, commit, maturité et avertissement | aucune |
 | Série | quelle station et quelle fenêtre sont affichées ? | sélecteur, fenêtre UTC et courbe | changer de station |
+| Événements | quand apparaissent les extrema discrets et comment sont-ils qualifiés ? | marqueurs PM/BM, heures UTC, hauteur brute, qualification et méthode | inspecter |
 | Diagnostics | la structure de la série est-elle saine ? | décompte, ordre, pas, valeurs invalides, bornes brutes | inspecter |
 | Traçabilité | d'où viennent les valeurs ? | source, licence, adaptateurs et qualification | inspecter |
 | Projet | qu'est-ce qui est prouvé ou encore ouvert ? | roadmap et registre d'audit issus des sources de vérité | revenir aux documents |
@@ -39,7 +40,8 @@ donnée.
 2. L'écran montre immédiatement la qualification brute et l'interdiction de
    navigation.
 3. Le mainteneur choisit Ouistreham ou Le Havre.
-4. La courbe, les métriques et la provenance se mettent à jour ensemble.
+4. La courbe, les événements, les métriques et la provenance se mettent à jour
+   ensemble.
 5. En cas d'instantané absent, la page donne la commande de régénération ; en
    cas de série dégradée, chaque compteur reste visible.
 
